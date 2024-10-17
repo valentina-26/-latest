@@ -615,6 +615,7 @@ body {
   --animate-duration: 1s;
 }
 
+
 .terminal-container {
   max-height: 300px;
   overflow-y: auto;
