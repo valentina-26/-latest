@@ -11,7 +11,6 @@
     <nav class="fixed top-0 left-0 right-0 z-50 bg-opacity-50 bg-black backdrop-blur-md">
       <div class="container mx-auto px-6 py-3">
         <div class="flex justify-between items-center">
-
           <div class="hidden md:flex space-x-4 items-center ">
             <a v-for="item in navItems" :key="item" :href="`#${item.toLowerCase()}`" 
                class="nav-item text-white hover:text-purple-400 transition-colors duration-300">
@@ -53,7 +52,7 @@
       <div class="parallax-bg"></div>
     </section>
 
-    <!-- Nueva sección: Conóceme Mejor -->
+    <!-- Sección: Conóceme Mejor -->
     <section id="conoceme" class="py-20 relative overflow-hidden">
       <div class="container mx-auto px-6">
         <h2 v-animateonscroll="{
@@ -65,7 +64,7 @@
         <div class="grid md:grid-cols-1 gap-12 text-center">
           <div v-animateonscroll="{
             enterClass: 'animate__animated animate__zoomIn',
-          leaveClass: 'animate__animated animate__zoomOut'
+            leaveClass: 'animate__animated animate__zoomOut'
           }" class="bg-gray-900 p-6 rounded-lg shadow-lg">
             <h3 class="text-2xl font-bold mb-4 text-purple-400">{{ t('myStory') }}</h3>
             <p class="text-gray-300">{{ t('myStoryText') }}</p>
@@ -92,8 +91,8 @@
       </div>
     </section>
 
-    <!-- Proyectos Section -->
-    <section id="proyectos" class="py-20 relative">
+    <!-- Proyectos Section con Carrusel Creativo y Automático -->
+    <section id="proyectos" ref="proyectosSection" class="py-20 relative overflow-hidden">
       <div class="container mx-auto px-6">
         <h2 v-animateonscroll="{
           enterClass: 'animate__animated animate__fadeIn',
@@ -101,23 +100,42 @@
         }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           {{ t('myProjects') }}
         </h2>
-        <div class="grid md:grid-cols-3 gap-8">
-          <div v-for="(project, index) in projects" :key="index" 
-               v-animateonscroll="{
-                 enterClass: 'animate__animated animate__fadeIn',
-                 leaveClass: 'animate__animated animate__fadeOut'
-               }"
-               class="project-card bg-gray-900 rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition-all duration-300">
-            <img :src="project.image" :alt="project.title" class="w-full h-48 object-cover">
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2 text-purple-400">{{ project.title }}</h3>
-              <p class="text-gray-400 mb-4">{{ project.description }}</p>
-              <a :href="project.link" target="_blank" 
-                 class="inline-block px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors duration-300">
-                {{ t('viewProject') }}
-              </a>
+        <div class="relative">
+          <transition-group 
+            name="carousel" 
+            tag="div" 
+            class="flex justify-center items-center"
+          >
+            <div v-for="(project, index) in visibleProjects" :key="project.id" 
+                 class="project-card absolute w-full md:w-2/3 lg:w-1/2 bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition-all duration-500"
+                 :style="{ zIndex: 3 - index, opacity: 1 - (index * 0.2), height: '450px' }"
+                 :class="{ 
+                   'scale-100': index === 0, 
+                   'scale-95 -translate-x-4': index === 1, 
+                   'scale-90 -translate-x-8': index === 2 
+                 }"
+                 @mouseenter="hoveredProjectId = project.id"
+                 @mouseleave="hoveredProjectId = null">
+              <img :src="project.image" :alt="project.title" class="w-full h-48 object-cover">
+              <div class="p-6 flex flex-col h-full">
+                <h3 class="text-xl font-bold mb-2 text-purple-400">{{ project.title }}</h3>
+                <p class="text-gray-400 mb-4 transition-opacity duration-300 ease-in-out overflow-y-auto max-h-32"
+                   :class="{ 'opacity-100': hoveredProjectId === project.id, 'opacity-0': hoveredProjectId !== project.id }">
+                  {{ project.description }}
+                </p>
+                <a :href="project.link" target="_blank" 
+                   class="inline-block px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors duration-300 mt-auto">
+                  {{ t('viewProject') }}
+                </a>
+              </div>
             </div>
-          </div>
+          </transition-group>
+          <button @click="prevProject" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700 transition-colors duration-300">
+            <ChevronLeftIcon class="w-6 h-6" />
+          </button>
+          <button @click="nextProject" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700 transition-colors duration-300">
+            <ChevronRightIcon class="w-6 h-6" />
+          </button>
         </div>
       </div>
     </section>
@@ -193,12 +211,12 @@
           <div class="terminal-body font-mono text-sm h-64 overflow-y-auto">
             <div v-for="(line, index) in terminalLines" :key="index" class="mb-1">
               <span class="text-green-400">$</span> 
-              <span class="typing-animation">{{ line }}</span>
+              <span v-html="line"></span>
             </div>
             <div class="flex items-center">
               <span class="text-green-400">$</span> 
               <input v-model="terminalInput" @keyup.enter="executeCommand" 
-                     class="ml-2 bg-transparent outline-none flex-grow" 
+                     class="ml-2 bg-transparent outline-none flex-grow text-green-400" 
                      type="text" :placeholder="t('enterCommand')">
             </div>
           </div>
@@ -219,13 +237,14 @@
     <footer class="bg-gray-900 py-8">
       <div class="container mx-auto px-6">
         <div class="flex flex-col md:flex-row justify-between items-center">
-          <p class="text-gray-400 mb-4 md:mb-0">{{ t('copyright') }}</p>
+          <p  class="text-gray-400 mb-4 md:mb-0">{{ t('copyright') }}</p>
           <div class="flex space-x-4">
             <a v-for="social in socialLinks" :key="social.name" :href="social.url" target="_blank" 
                :aria-label="social.name"
                class="text-gray-400 hover:text-purple-400 transition-colors duration-300">
               <component :is="social.icon" class="w-6 h-6" />
             </a>
+          
           </div>
         </div>
       </div>
@@ -234,16 +253,16 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import { useIntersectionObserver } from '@vueuse/core';
-import { SunIcon, MoonIcon, PaintBrushIcon, DevicePhoneMobileIcon, ServerIcon } from '@heroicons/vue/24/solid';
+import { SunIcon, MoonIcon, PaintBrushIcon, DevicePhoneMobileIcon, ServerIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid';
 import { GithubIcon, TwitterIcon, LinkedinIcon } from 'lucide-vue-next';
 import 'primeicons/primeicons.css';
 import 'primevue/resources/themes/lara-light-indigo/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'animate.css';
 
-const  isDarkMode = ref(true);
+const isDarkMode = ref(true);
 const cursor = ref(null);
 const cursorDot = ref(null);
 const currentLanguage = ref('es');
@@ -251,6 +270,9 @@ const missionRef = ref(null);
 const visionRef = ref(null);
 const isMissionVisible = ref(false);
 const isVisionVisible = ref(false);
+const proyectosSection = ref(null);
+const isProjectsSectionVisible = ref(false);
+const hoveredProjectId = ref(null);
 
 useIntersectionObserver(missionRef, ([{ isIntersecting }]) => {
   isMissionVisible.value = isIntersecting;
@@ -258,6 +280,10 @@ useIntersectionObserver(missionRef, ([{ isIntersecting }]) => {
 
 useIntersectionObserver(visionRef, ([{ isIntersecting }]) => {
   isVisionVisible.value = isIntersecting;
+});
+
+useIntersectionObserver(proyectosSection, ([{ isIntersecting }]) => {
+  isProjectsSectionVisible.value = isIntersecting;
 });
 
 const toggleDarkMode = () => {
@@ -330,7 +356,7 @@ const t = computed(() => {
       terminal: 'Interactive Terminal',
       knowMeBetter: 'Get to Know Me Better',
       myStory: 'About me',
-      myStoryText: 'Young junior developer with diverse project experience, fostering creativity, teamwork, and problem-solving passion. Motivated to contribute to impactful projects that benefit society and advance personal and professional growth..',
+      myStoryText: 'Young junior developer with diverse project experience, fostering creativity, teamwork, and problem-solving passion. Motivated to contribute to impactful projects that benefit society and advance personal and professional growth.',
       enterCommand: 'Enter a command...',
       aboutMeTerminal: 'I\'m a developer passionate about creating innovative solutions that improve people\'s lives. I love learning new technologies and facing challenges.',
       skillsTerminal: 'My skills include: JavaScript, Vue.js, Node.js, Python, SQL, and more. I\'m always learning and improving my skills.',
@@ -344,10 +370,53 @@ const t = computed(() => {
 const navItems = ['inicio', 'proyectos', 'habilidades', 'contacto'];
 
 const projects = [
-  { title: 'Proyecto 1', description: 'Descripción del proyecto 1', image: '/placeholder.svg?height=300&width=400', link: '#' },
-  { title: 'Proyecto 2', description: 'Descripción del proyecto 2', image: '/placeholder.svg?height=300&width=400', link: '#' },
-  { title: 'Proyecto 3', description: 'Descripción del proyecto 3', image: '/placeholder.svg?height=300&width=400', link: '#' },
+  { id: 1, title: 'Proyecto 1', description: 'Una aplicación web innovadora que revoluciona la forma en que las personas interactúan con la tecnología.', image: '/placeholder.svg?height=300&width=400', link: '#' },
+  { id: 2, title: 'Proyecto 2', description: 'Una plataforma de e-learning que hace que el aprendizaje sea accesible y divertido para todos.', image: '/placeholder.svg?height=300&width=400', link: '#' },
+  { id: 3, title: 'Proyecto 3', description: 'Un sistema de gestión de tareas que aumenta la productividad y mejora la colaboración en equipo.', image: '/placeholder.svg?height=300&width=400', link: '#' },
+  { id: 4, title: 'Proyecto 4', description: 'Una aplicación móvil que ayuda a las personas a mantenerse en forma y saludables con rutinas personalizadas.', image: '/placeholder.svg?height=300&width=400', link: '#' },
+  { id: 5, title: 'Proyecto 5', description: 'Un innovador sistema de IoT para hogares inteligentes que optimiza el consumo de energía.', image: '/placeholder.svg?height=300&width=400', link: '#' },
 ];
+
+const currentIndex = ref(0);
+const autoSlideInterval = ref(null);
+
+const visibleProjects = computed(() => {
+  const projectCount = projects.length;
+  return [
+    projects[currentIndex.value],
+    projects[(currentIndex.value + 1) % projectCount],
+    projects[(currentIndex.value + 2) % projectCount]
+  ];
+});
+
+const nextProject = () => {
+  currentIndex.value = (currentIndex.value + 1) % projects.length;
+};
+
+const prevProject = () => {
+  currentIndex.value = (currentIndex.value - 1 + projects.length) % projects.length;
+};
+
+const startAutoSlide = () => {
+  stopAutoSlide();
+  autoSlideInterval.value = setInterval(() => {
+    nextProject();
+  }, 5000); // Cambia de proyecto cada 5 segundos
+};
+
+const stopAutoSlide = () => {
+  if (autoSlideInterval.value) {
+    clearInterval(autoSlideInterval.value);
+  }
+};
+
+watch(isProjectsSectionVisible, (newValue) => {
+  if (newValue) {
+    startAutoSlide();
+  } else {
+    stopAutoSlide();
+  }
+});
 
 const skills = [
   { name: 'Diseño UI/UX', icon: PaintBrushIcon },
@@ -365,12 +434,6 @@ const socialLinks = [
   { name: 'GitHub', icon: GithubIcon, url: 'https://github.com/valentina-26?tab=repositories' },
   { name: 'LinkedIn', icon: LinkedinIcon, url: 'https://www.linkedin.com/in/valentina-castro-b0630b319/' },
 ];
-
-const form = ref({
-  name: '',
-  email: '',
-  message: '',
-});
 
 const updateCursor = (e) => {
   if (cursor.value && cursorDot.value) {
@@ -392,44 +455,31 @@ const executeCommand = () => {
   switch (command) {
     case 'help':
       terminalLines.value.push('Comandos disponibles:');
-      terminalLines.value.push('- about: Información sobre mí');
-      terminalLines.value.push('- skills: Mis habilidades');
-      terminalLines.value.push('- projects: Mis proyectos');
+      terminalLines.value.push('- cv: Mi hoja de vida');
       terminalLines.value.push('- contact: Contacto');
       terminalLines.value.push('- clear: Limpiar la terminal');
       break;
-    case 'about':
-    terminalLines.value.push('Redirigiendo a la sección de sobre mi...');
+
+    case 'cv':
+      terminalLines.value.push('Mostrando link de mi hoja de vida...');
       setTimeout(() => {
-        const projectsSection = document.getElementById('conoceme');
-        if (projectsSection) {
-          projectsSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        terminalLines.value.push('<a href="https://www.canva.com/design/DAGBrY_47fM/5dhdsxs_siGcFZxXrJLlBg/edit?utm_content=DAGBrY_47fM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" class="text-blue-500 hover:underline">Ver mi hoja de vida</a>');
       }, 1000);
       break;
-    case 'skills':
-      terminalLines.value.push(t('skillsCommand'));
-      break;
-    case 'projects':
-      terminalLines.value.push('Redirigiendo a la sección de proyectos...');
-      setTimeout(() => {
-        const projectsSection = document.getElementById('proyectos');
-        if (projectsSection) {
-          projectsSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 1000);
-      break;
+
     case 'contact':
-      window.location.href = 'mailto:acastrosandova3@gmail.com';
+      window.open('mailto:acastrosandova3@gmail.com', '_blank');
       terminalLines.value.push('Abriendo su cliente de correo electrónico...');
       break;
+
     case 'clear':
       terminalLines.value = [];
       break;
+
     default:
       terminalLines.value.push(`Comando no reconocido: ${command}. Escribe 'help' para ver los comandos disponibles.`);
   }
-  
+
   terminalInput.value = '';
   nextTick(() => {
     const terminalBody = document.querySelector('.terminal-body');
@@ -438,7 +488,6 @@ const executeCommand = () => {
     }
   });
 };
-
 
 onMounted(() => {
   document.addEventListener('mousemove', updateCursor);
@@ -465,6 +514,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.removeEventListener('mousemove', updateCursor);
+  stopAutoSlide();
 });
 </script>
 
@@ -575,25 +625,28 @@ body {
   overflow-y: auto;
 }
 
-.typing-animation {
-  overflow: hidden;
-  border-right: .15em solid orange;
-  white-space: nowrap;
-  margin: 0 auto;
-  letter-spacing: .15em;
-  animation: 
-    typing 3.5s steps(40, end),
-    blink-caret .75s step-end infinite;
+.terminal-body::-webkit-scrollbar {
+  width: 8px;
 }
 
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+.terminal-body::-webkit-scrollbar-track {
+  background: #1a1a1a;
 }
 
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: orange; }
+.terminal-body::-webkit-scrollbar-thumb {
+  background-color: #4a4a4a;
+  border-radius: 4px;
+}
+
+.terminal-body::after {
+  content: '|';
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 .parallax-bg {
@@ -606,17 +659,40 @@ body {
   background-size: cover;
   background-position: center;
   transform: translateZ(-1px) scale(2);
-  z-index: -1;
+    z-index: -1;
 }
 
-.terminal-body::after {
-  content: '|';
-  animation: blink 1s infinite;
+.terminal-body a {
+  color: #3b82f6;
+  text-decoration: underline;
 }
 
-@keyframes blink {
-  0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; }
+.terminal-body a:hover {
+  text-decoration: none;
+}
+
+.carousel-enter-active,
+.carousel-leave-active {
+  transition: all 0.5s ease;
+}
+
+.carousel-enter-from {
+  opacity: 0;
+  transform: translateX(100%) scale(0.9);
+}
+
+.carousel-leave-to {
+  opacity: 0;
+  transform: translateX(-100%) scale(0.9);
+}
+
+.project-card {
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.project-card p {
+  transition: opacity 0.3s ease-in-out;
+  overflow-y: auto;
+  max-height: 120px; /* Ajusta este valor según sea necesario */
 }
 </style>
