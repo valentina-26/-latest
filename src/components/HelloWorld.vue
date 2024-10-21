@@ -107,7 +107,7 @@
             class="flex justify-center items-center"
           >
             <div v-for="(project, index) in visibleProjects" :key="project.id" 
-                 class="project-card absolute w-full md:w-2/3 lg:w-1/2 bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition-all duration-500"
+                 class="project-card absolute w-full md:w-2/3 lg:w-1/2 bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition-all duration-450"
                  :style="{ zIndex: 3 - index, opacity: 1 - (index * 0.2), height: '450px' }"
                  :class="{ 
                    'scale-100': index === 0, 
@@ -119,7 +119,7 @@
               <img :src="project.image" :alt="project.title" class="w-full h-48 object-cover">
               <div class="p-6 flex flex-col h-full">
                 <h3 class="text-xl font-bold mb-2 text-purple-400">{{ project.title }}</h3>
-                <p class="text-gray-400 mb-4 transition-opacity duration-300 ease-in-out overflow-y-auto max-h-32"
+                <p class="text-gray-400 mb-4 transition-opacity duration-300 ease-in-out overflow-y-auto max-h-42"
                    :class="{ 'opacity-100': hoveredProjectId === project.id, 'opacity-0': hoveredProjectId !== project.id }">
                   {{ project.description }}
                 </p>
@@ -370,11 +370,11 @@ const t = computed(() => {
 const navItems = ['inicio', 'proyectos', 'habilidades', 'contacto'];
 
 const projects = [
-  { id: 1, title: 'Proyecto 1', description: 'Una aplicación web innovadora que revoluciona la forma en que las personas interactúan con la tecnología.', image: '/placeholder.svg?height=300&width=400', link: '#' },
-  { id: 2, title: 'Proyecto 2', description: 'Una plataforma de e-learning que hace que el aprendizaje sea accesible y divertido para todos.', image: '/placeholder.svg?height=300&width=400', link: '#' },
-  { id: 3, title: 'Proyecto 3', description: 'Un sistema de gestión de tareas que aumenta la productividad y mejora la colaboración en equipo.', image: '/placeholder.svg?height=300&width=400', link: '#' },
-  { id: 4, title: 'Proyecto 4', description: 'Una aplicación móvil que ayuda a las personas a mantenerse en forma y saludables con rutinas personalizadas.', image: '/placeholder.svg?height=300&width=400', link: '#' },
-  { id: 5, title: 'Proyecto 5', description: 'Un innovador sistema de IoT para hogares inteligentes que optimiza el consumo de energía.', image: '/placeholder.svg?height=300&width=400', link: '#' },
+  { id: 1, title: 'Eccomerce-Campus', description: 'Este proyecto permite visualizar productos, buscar por categorías, ver descripciones y elegir tallas. Además, gestiona un carrito de compras que calcula el total y facilita el checkout.', image: '/placeholder.svg?height=300&width=400', link: '#' },
+  { id: 2, title: 'ToDoList', description: 'Este proyecto de to-do list permite agregar, eliminar y marcar tareas como completadas, mostrando la fecha y hora en tiempo real.', image: '/placeholder.svg?height=300&width=400', link: '#' },
+  { id: 3, title: 'Menu', description: 'En mis inicios con HTML y CSS, creé una landing page para un menú de restaurante. La página muestra todos los productos y sus descripciones, lo que me ayudó a aprender a diseñar información de manera atractiva.', image: '/placeholder.svg?height=300&width=400', link: '#' },
+  { id: 4, title: 'CineCampus', description: 'Este proyecto, desarrollado con Node.js, es una aplicación de cine que incluye APIs y front-end. Permite a los usuarios ver películas, leer descripciones y consultar la disponibilidad de asientos, lo que me dio una gran experiencia en desarrollo full-stack.', image: '/placeholder.svg?height=300&width=400', link: '#' },
+  { id: 5, title: 'Space X', description: 'En este proyecto, utilizamos JavaScript para consumir la API de SpaceX, poniendo en práctica nuestra creatividad y  explorar datos espaciales e integrar APIs de manera efectiva.', image: '/placeholder.svg?height=300&width=400', link: '#' },
 ];
 
 const currentIndex = ref(0);
