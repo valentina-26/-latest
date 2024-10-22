@@ -149,17 +149,17 @@
         }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           {{ t('mySkills') }}
         </h2>
-        <div class="grid md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           <div v-for="(skill, index) in skills" :key="index" 
                v-animateonscroll="{
                  enterClass: 'animate__animated animate__zoomIn',
                  leaveClass: 'animate__animated animate__zoomOut'
                }"
-               class="skill-item text-center p-6 bg-gray-900 rounded-lg transform hover:scale-110 transition-all duration-300">
-            <div class="skill-icon mb-4 text-5xl text-purple-500">
-              <component :is="skill.icon" />
+               class="skill-item text-center p-4 bg-gray-900 rounded-lg transform hover:scale-110 transition-all duration-300 flex flex-col items-center justify-center">
+            <div class="skill-icon mb-2 text-3xl text-purple-500">
+              <component :is="skill.icon" class="w-8 h-8" />
             </div>
-            <h3 class="text-xl font-bold text-white">{{ skill.name }}</h3>
+            <h3 class="text-sm font-bold text-white">{{ skill.name }}</h3>
           </div>
         </div>
       </div>
@@ -174,18 +174,50 @@
         }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           {{ t('HabilidadesBlandas') }}
         </h2>
-        <div class="grid md:grid-cols-3 gap-8">
+        <div class="flex justify-center space-x-8">
           <div v-for="(skill, index) in softSkills" :key="index" 
                v-animateonscroll="{
                  enterClass: 'animate__animated animate__zoomIn',
                  leaveClass: 'animate__animated animate__zoomOut'
                }"
-               class="skill-item text-center p-6 bg-gray-900 rounded-lg transform hover:scale-110 transition-all duration-300">
-            <div class="skill-icon mb-4 text-5xl text-purple-500">
+               class="skill-item text-center p-6 bg-gray-900 rounded-full w-40 h-40 transform hover:scale-110 transition-all duration-300 flex flex-col items-center justify-center">
+            <div class="skill-icon mb-3 text-4xl text-purple-500">
               <i :class="skill.icon"></i>
             </div>
-            <h3 class="text-xl font-bold text-white">{{ skill.name }}</h3>
+            <h3 class="text-sm font-bold text-white">{{ skill.name }}</h3>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nueva sección de Reconocimientos -->
+    <section id="reconocimientos" class="py-20 relative overflow-hidden bg-gray-900">
+      <div class="container mx-auto px-6">
+        <h2 v-animateonscroll="{
+          enterClass: 'animate__animated animate__fadeIn',
+          leaveClass: 'animate__animated animate__fadeOut'
+        }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+          {{ t('acknowledgments') }}
+        </h2>
+        <div class="relative h-80">
+          <transition-group name="fade" tag="div">
+            <div v-for="(ack, index) in acknowledgments" :key="ack.name"
+                 v-show="index === currentAcknowledgment"
+                 class="absolute inset-0 flex flex-col items-center justify-center bg-gray-800 rounded-lg p-6 text-center">
+              <h3 class="text-2xl font-semibold mb-2 text-white">{{ ack.name }}</h3>
+              <p class="text-purple-400 mb-4">{{ ack.role }}</p>
+              <p class="text-gray-300">{{ ack.message }}</p>
+            </div>
+          </transition-group>
+        </div>
+        <div class="flex justify-center mt-8">
+          <button v-for="(_, index) in acknowledgments" :key="index"
+                  @click="currentAcknowledgment = index"
+                  :class="[
+                    'w-3 h-3 rounded-full mx-1',
+                    index === currentAcknowledgment ? 'bg-purple-500' : 'bg-gray-500'
+                  ]">
+          </button>
         </div>
       </div>
     </section>
@@ -202,7 +234,7 @@
         <div class="terminal-container bg-gray-900 rounded-lg p-4 shadow-lg">
           <div class="terminal-header flex justify-between items-center mb-2">
             <div class="flex space-x-2">
-              <div class="w-3 h-3 rounded-full bg-red-500"></div>
+              <div  class="w-3 h-3 rounded-full bg-red-500"></div>
               <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
               <div class="w-3 h-3 rounded-full bg-green-500"></div>
             </div>
@@ -225,7 +257,7 @@
     </section>
 
     <div class="flex justify-center bottom- -5px">
-      <img src="/home/camper/Documentos/Mi-portafolio/src/assets/logoSinfondo.png" alt="Logo" class="max-w-full h-auto">
+      <img src="../assets/logoSinfondo.png" alt="Logo" class="max-w-full h-auto">
     </div>
     <div class="flex justify-center">
         <a href="#" class="text-2xl font-bold text-white hover:text-purple-400 transition-colors duration-300 text-center">
@@ -244,7 +276,6 @@
                class="text-gray-400 hover:text-purple-400 transition-colors duration-300">
               <component :is="social.icon" class="w-6 h-6" />
             </a>
-          
           </div>
         </div>
       </div>
@@ -300,7 +331,7 @@ const t = computed(() => {
       myPortfolio: 'Codificando sueños linea a linea',
       hello: 'Hola, soy',
       yourName: 'Ana Valentina Castro',
-      jobTitle: 'Desarrolladora backend junior',
+      jobTitle: 'Desarrolladora FullStack junior',
       viewProjects: 'Ver Proyectos',
       mission: 'Mi misión',
       missionText: 'Mi misión es crear soluciones digitales innovadoras que mejoren la vida de las personas y transformen la manera en que interactuamos con la tecnología.',
@@ -328,12 +359,13 @@ const t = computed(() => {
       skillsTerminal: 'Mis habilidades incluyen: JavaScript, Vue.js, Node.js, Python, SQL, y más. Siempre estoy aprendiendo y mejorando mis habilidades.',
       aboutCommand: 'Desarrolladora junior con experiencia en diversos proyectos, fomentando la creatividad, el trabajo en equipo y la pasión por resolver problemas. Motivada para contribuir en proyectos impactantes que beneficien a la sociedad y promuevan el crecimiento personal y profesional.',
       skillsCommand: 'Mis habilidades incluyen: liderazgo, creatividad, proactividad, JavaScript, Vue, MongoDB, MySQL, entre otras.',
+      acknowledgments: 'Reconocimientos',
     },
     en: {
       myPortfolio: 'Coding dreams line by line',
       hello: 'Hello, I\'m',
       yourName: 'Ana Valentina Castro',
-      jobTitle: 'Junior backend developer',
+      jobTitle: 'Junior Fullstack developer',
       viewProjects: 'View Projects',
       mission: 'My mission',
       missionText: 'My mission is to create innovative digital solutions that improve people\'s lives and transform the way we interact with technology.',
@@ -346,7 +378,7 @@ const t = computed(() => {
       contactMe: 'Contact Me',
       name: 'Name',
       email: 'Email',
-      message: 'Mensaje',
+      message: 'Message',
       sendMessage: 'Send Message',
       copyright: '© 2023 Ana Valentina Castro. All rights reserved.',
       inicio: 'Home',
@@ -362,6 +394,7 @@ const t = computed(() => {
       skillsTerminal: 'My skills include: JavaScript, Vue.js, Node.js, Python, SQL, and more. I\'m always learning and improving my skills.',
       aboutCommand: 'Young junior developer with diverse project experience, fostering creativity, teamwork, and problem-solving passion. Motivated to contribute to impactful projects that benefit society and advance personal and professional growth.',
       skillsCommand: 'My skills include: leadership, creativity, proactivity, JavaScript, Vue, MongoDB, MySQL, among others.',
+      acknowledgments: 'Acknowledgments',
     }
   };
   return (key) => translations[currentLanguage.value][key];
@@ -419,9 +452,16 @@ watch(isProjectsSectionVisible, (newValue) => {
 });
 
 const skills = [
-  { name: 'Diseño UI/UX', icon: PaintBrushIcon },
-  { name: 'Desarrollo Móvil', icon: DevicePhoneMobileIcon },
-  { name: 'Backend', icon: ServerIcon },
+  { name: 'JavaScript', icon: 'i-logos-javascript' },
+  { name: 'Vue.js', icon: 'i-logos-vue' },
+  { name: 'React', icon: 'i-logos-react' },
+  { name: 'Node.js', icon: 'i-logos-nodejs' },
+  { name: 'Python', icon: 'i-logos-python' },
+  { name: 'HTML5', icon: 'i-logos-html-5' },
+  { name: 'CSS3', icon: 'i-logos-css-3' },
+  { name: 'Git', icon: 'i-logos-git-icon' },
+  { name: 'MongoDB', icon: 'i-logos-mongodb' },
+  { name: 'SQL', icon: 'i-logos-mysql' },
 ];
 
 const softSkills = [
@@ -489,9 +529,24 @@ const executeCommand = () => {
   });
 };
 
+// Nueva sección de Reconocimientos
+const acknowledgments = [
+  { name: 'John Doe', role: 'Mentor', message: 'Por guiarme a través de las complejidades del desarrollo web.' },
+  { name: 'Jane Smith', role: 'Colega', message: 'Por ser una increíble compañera de programación en pareja.' },
+  { name: 'Universidad Tecnológica', role: 'Institución', message: 'Por proporcionar una base sólida en ciencias de la computación.' },
+  { name: 'Comunidad Open Source', role: 'Comunidad', message: 'Por los innumerables recursos y apoyo.' },
+  { name: 'Mi Familia', role: 'Sistema de Apoyo', message: 'Por su inquebrantable fe en mis habilidades.' },
+];
+
+const currentAcknowledgment = ref(0);
+
+const changeAcknowledgment = () => {
+  currentAcknowledgment.value = (currentAcknowledgment.value + 1) % acknowledgments.length;
+};
+
 onMounted(() => {
   document.addEventListener('mousemove', updateCursor);
-  
+
   // Inicializar partículas
   particlesJS('particles-js', {
     particles: {
@@ -510,6 +565,9 @@ onMounted(() => {
     },
     retina_detect: true
   });
+
+  // Iniciar el cambio automático de reconocimientos
+  setInterval(changeAcknowledgment, 5000);
 });
 
 onUnmounted(() => {
@@ -615,7 +673,6 @@ body {
   --animate-duration: 1s;
 }
 
-
 .terminal-container {
   max-height: 300px;
   overflow-y: auto;
@@ -660,7 +717,7 @@ body {
   background-size: cover;
   background-position: center;
   transform: translateZ(-1px) scale(2);
-    z-index: -1;
+  z-index: -1;
 }
 
 .terminal-body a {
@@ -695,5 +752,15 @@ body {
   transition: opacity 0.3s ease-in-out;
   overflow-y: auto;
   max-height: 120px; /* Ajusta este valor según sea necesario */
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
