@@ -24,28 +24,38 @@
       </div>
     </nav>
 
-    <!-- Hero Section con Parallax -->
+    <!-- Hero Section con Parallax y Avatar -->
     <section id="inicio" class="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div class="container mx-auto px-6 relative z-10">
-        <h1 v-animateonscroll="{
-          enterClass: 'animate__animated animate__zoomIn',
-          leaveClass: 'animate__animated animate__zoomOut'
-        }" class="text-5xl md:text-7xl font-bold mb-4 text-center animate-text-gradient">
-          {{ t('hello') }} <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">{{ t('yourName') }}</span>
-        </h1>
-        <p v-animateonscroll="{
-          enterClass: 'animate__animated animate__fadeInUp',
-          leaveClass: 'animate__animated animate__fadeOutDown'
-        }" class="text-xl md:text-2xl mb-8 text-center">
-          {{ t('jobTitle') }}
-        </p>
-        <div v-animateonscroll="{
-          enterClass: 'animate__animated animate__zoomIn',
-          leaveClass: 'animate__animated animate__zoomOut'
-        }" class="text-center">
-          <a href="#proyectos" class="inline-block px-8 py-3 border border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white transition-all duration-300 rounded-full animate-pulse">
-            {{ t('viewProjects') }}
-          </a>
+        <div class="flex flex-col items-center">
+          <transition
+            enter-active-class="animate__animated animate__zoomIn"
+            leave-active-class="animate__animated animate__zoomOut"
+          >
+            <div class="mb-6 rounded-full overflow-hidden neon-border">
+              <img src="../assets/avatar.webp" alt="Avatar" class="w-40 h-40 object-cover" />
+            </div>
+          </transition>
+          <h1 v-animateonscroll="{
+            enterClass: 'animate__animated animate__zoomIn',
+            leaveClass: 'animate__animated animate__zoomOut'
+          }" class="text-5xl md:text-7xl font-bold mb-4 text-center animate-text-gradient">
+            {{ t('hello') }} <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">{{ t('yourName') }}</span>
+          </h1>
+          <p v-animateonscroll="{
+            enterClass: 'animate__animated animate__fadeInUp',
+            leaveClass: 'animate__animated animate__fadeOutDown'
+          }" class="text-xl md:text-2xl mb-8 text-center">
+            {{ t('jobTitle') }}
+          </p>
+          <div v-animateonscroll="{
+            enterClass: 'animate__animated animate__zoomIn',
+            leaveClass: 'animate__animated animate__zoomOut'
+          }" class="text-center">
+            <a href="#terminal" class="inline-block px-8 py-3 border border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white transition-all duration-300 rounded-full animate-pulse">
+              {{ t('viewProjects') }}
+            </a>
+          </div>
         </div>
       </div>
       <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black to-transparent"></div>
@@ -191,8 +201,8 @@
     </section>
 
     <!-- Nueva sección de Reconocimientos -->
-    <section id="reconocimientos" class="py-20 relative overflow-hidden bg-gray-900">
-      <div class="container mx-auto px-6">
+    <section id="reconocimientos" class="py-10 relative overflow-hidden bg-gray-900">
+      <div class="container mx-auto px-4">
         <h2 v-animateonscroll="{
           enterClass: 'animate__animated animate__fadeIn',
           leaveClass: 'animate__animated animate__fadeOut'
@@ -228,7 +238,7 @@
         <h2 v-animateonscroll="{
           enterClass: 'animate__animated animate__fadeIn',
           leaveClass: 'animate__animated animate__fadeOut'
-        }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+        }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text  bg-gradient-to-r from-purple-400 to-pink-600">
           {{ t('terminal') }}
         </h2>
         <div class="terminal-container bg-gray-900 rounded-lg p-4 shadow-lg">
@@ -330,16 +340,16 @@ const t = computed(() => {
     es: {
       myPortfolio: 'Codificando sueños linea a linea',
       hello: 'Hola, soy',
-      yourName: 'Ana Valentina Castro',
+      yourName: 'Ana Valentina Castro Sandoval',
       jobTitle: 'Desarrolladora FullStack junior',
-      viewProjects: 'Ver Proyectos',
+      viewProjects: 'Contactame',
       mission: 'Mi misión',
       missionText: 'Mi misión es crear soluciones digitales innovadoras que mejoren la vida de las personas y transformen la manera en que interactuamos con la tecnología.',
       vision: 'Mi visión',
       visionText: 'Mi visión es ser un líder en el desarrollo de experiencias digitales intuitivas y accesibles, contribuyendo al avance tecnológico de manera ética y sostenible.',
       myProjects: 'Mis Proyectos',
       viewProject: 'Ver Proyecto',
-      mySkills: 'Mis habilidades duras',
+      mySkills: 'Mis habilidades tecnicas',
       HabilidadesBlandas: 'Mis Habilidades blandas',
       contactMe: 'Contactame',
       name: 'Nombre',
@@ -359,12 +369,12 @@ const t = computed(() => {
       skillsTerminal: 'Mis habilidades incluyen: JavaScript, Vue.js, Node.js, Python, SQL, y más. Siempre estoy aprendiendo y mejorando mis habilidades.',
       aboutCommand: 'Desarrolladora junior con experiencia en diversos proyectos, fomentando la creatividad, el trabajo en equipo y la pasión por resolver problemas. Motivada para contribuir en proyectos impactantes que beneficien a la sociedad y promuevan el crecimiento personal y profesional.',
       skillsCommand: 'Mis habilidades incluyen: liderazgo, creatividad, proactividad, JavaScript, Vue, MongoDB, MySQL, entre otras.',
-      acknowledgments: 'Reconocimientos',
+      acknowledgments: 'Certificados',
     },
     en: {
       myPortfolio: 'Coding dreams line by line',
       hello: 'Hello, I\'m',
-      yourName: 'Ana Valentina Castro',
+      yourName: 'Ana Valentina Castro Sandoval',
       jobTitle: 'Junior Fullstack developer',
       viewProjects: 'View Projects',
       mission: 'My mission',
@@ -484,8 +494,8 @@ const updateCursor = (e) => {
   }
 };
 
-// Terminal logic
-const terminalLines = ref(['Bienvenido a mi terminal interactiva. Escribe "help" para ver los comandos disponibles.']);
+// Terminal 
+const terminalLines = ref(['Bienvenido a mi terminal interactiva. Escribe "help" para ver los comandos que te permitiran contactarme']);
 const terminalInput = ref('');
 
 const executeCommand = () => {
@@ -496,7 +506,8 @@ const executeCommand = () => {
     case 'help':
       terminalLines.value.push('Comandos disponibles:');
       terminalLines.value.push('- cv: Mi hoja de vida');
-      terminalLines.value.push('- contact: Contacto');
+      terminalLines.value.push('- email: email');
+      terminalLines.value.push('- linkedin: Linkedin');
       terminalLines.value.push('- clear: Limpiar la terminal');
       break;
 
@@ -507,9 +518,16 @@ const executeCommand = () => {
       }, 1000);
       break;
 
-    case 'contact':
+    case 'email':
       window.open('mailto:acastrosandova3@gmail.com', '_blank');
       terminalLines.value.push('Abriendo su cliente de correo electrónico...');
+      break;
+
+    case 'linkedin':
+    terminalLines.value.push('Mostrando link de mi Linkedin...');
+      setTimeout(() => {
+        terminalLines.value.push('<a href="https://www.linkedin.com/in/valentina-castro-b0630b319/" target="_blank" class="text-blue-500 hover:underline">Ver mi linkedin</a>');
+      }, 1000);
       break;
 
     case 'clear':
@@ -567,7 +585,7 @@ onMounted(() => {
   });
 
   // Iniciar el cambio automático de reconocimientos
-  setInterval(changeAcknowledgment, 5000);
+  setInterval(changeAcknowledgment, 4500);
 });
 
 onUnmounted(() => {
@@ -577,18 +595,21 @@ onUnmounted(() => {
 </script>
 
 <style>
+/* 1. Importaciones externas */
 @import 'https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css';
 @import 'animate.css';
 @import 'primevue/resources/themes/lara-light-indigo/theme.css';
 @import 'primevue/resources/primevue.min.css';
-@import 'primeicons/primeicons.css'; 
+@import 'primeicons/primeicons.css';
 
+/* 2. Estilos globales */
 body {
   font-family: 'Arial', sans-serif;
   background-color: black;
   color: white;
 }
 
+/* 3. Estilos personalizados */
 .custom-cursor {
   width: 40px;
   height: 40px;
@@ -609,7 +630,7 @@ body {
   position: fixed;
   pointer-events: none;
   z-index: 10000;
-  transition: all 0.25s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: all 0.25s cubic-bezier(0.60, -0.60, 0.270, 1.55);
   transform: translate(-50%, -50%);
 }
 
@@ -624,11 +645,12 @@ body {
 }
 
 @keyframes shine {
-  0% { background-position: 0% 50% }
-  50% { background-position: 100% 50% }
-  100% { background-position: 0% 50% }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
+/* 4. Estilos de navegación */
 .nav-item {
   position: relative;
   overflow: hidden;
@@ -650,6 +672,7 @@ body {
   transform: translateX(0);
 }
 
+/* 5. Efectos en tarjetas y elementos */
 .project-card, .skill-item {
   transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
@@ -659,6 +682,7 @@ body {
   box-shadow: 0 15px 30px rgba(139, 92, 246, 0.3);
 }
 
+/* 6. Partículas de fondo */
 #particles-js {
   position: absolute;
   width: 100%;
@@ -669,10 +693,12 @@ body {
   background-position: 50% 50%;
 }
 
+/* 7. Animaciones */
 .animate__animated {
   --animate-duration: 1s;
 }
 
+/* 8. Terminal */
 .terminal-container {
   max-height: 300px;
   overflow-y: auto;
@@ -707,6 +733,7 @@ body {
   100% { opacity: 0; }
 }
 
+/* 9. Efectos de parallax */
 .parallax-bg {
   position: absolute;
   top: 0;
@@ -720,6 +747,7 @@ body {
   z-index: -1;
 }
 
+/* 10. Enlaces en el terminal */
 .terminal-body a {
   color: #3b82f6;
   text-decoration: underline;
@@ -729,6 +757,7 @@ body {
   text-decoration: none;
 }
 
+/* 11. Animaciones de carrusel */
 .carousel-enter-active,
 .carousel-leave-active {
   transition: all 0.5s ease;
@@ -744,16 +773,7 @@ body {
   transform: translateX(-100%) scale(0.9);
 }
 
-.project-card {
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.project-card p {
-  transition: opacity 0.3s ease-in-out;
-  overflow-y: auto;
-  max-height: 120px; /* Ajusta este valor según sea necesario */
-}
-
+/* 12. Otros efectos */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
@@ -763,4 +783,6 @@ body {
 .fade-leave-to {
   opacity: 0;
 }
+
+
 </style>
