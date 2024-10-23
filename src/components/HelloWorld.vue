@@ -32,8 +32,14 @@
             enter-active-class="animate__animated animate__zoomIn"
             leave-active-class="animate__animated animate__zoomOut"
           >
-            <div class="mb-6 rounded-full overflow-hidden neon-border">
-              <img src="../assets/avatar.webp" alt="Avatar" class="w-40 h-40 object-cover" />
+            <div class="relative mb-6 w-40 h-40">
+              <!-- Neon border effect -->
+              <div class="absolute inset-0 rounded-full bg-purple-600 blur-sm"></div>
+              <div class="absolute inset-0 rounded-full bg-purple-500 blur-xs"></div>
+              <!-- Image container -->
+              <div class="relative rounded-full overflow-hidden z-10 w-full h-full">
+                <img src="../assets/node.jpg" alt="Avatar" class="w-full h-full object-cover" />
+              </div>
             </div>
           </transition>
           <h1 v-animateonscroll="{
@@ -154,7 +160,7 @@
     <section id="habilidades" class="py-20 relative overflow-hidden">
       <div class="container mx-auto px-6">
         <h2 v-animateonscroll="{
-          enterClass: 'animate__animated animate__fadefile:///home/ana/Pictures/1_bc9pmTiyKR0WNPka2w3e0Q.pngIn',
+          enterClass: 'animate__animated animate__fadeIn',
           leaveClass: 'animate__animated animate__fadeOut'
         }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           {{ t('mySkills') }}
@@ -168,8 +174,8 @@
                class="skill-item text-center p-4 bg-gray-900 rounded-lg transform hover:scale-110 transition-all duration-300 flex flex-col items-center justify-center">
             <div class="skill-icon mb-2 text-3xl text-purple-500">
               <div class="mb-6 rounded-full overflow-hidden neon-border">
-              <img icon />
-            </div>
+                <img :src="skill.icon" :alt="skill.name" class="w-12 h-12 object-cover" />
+              </div>
             </div>
             <h3 class="text-sm font-bold text-white">{{ skill.name }}</h3>
           </div>
@@ -222,7 +228,7 @@
             </div>
           </transition-group>
         </div>
-        <div class="flex justify-center mt-8">
+        <div class="flex justify-center  mt-8">
           <button v-for="(_, index) in acknowledgments" :key="index"
                   @click="currentAcknowledgment = index"
                   :class="[
@@ -552,11 +558,11 @@ const executeCommand = () => {
 
 // Nueva sección de Reconocimientos
 const acknowledgments = [
-  { name: 'John Doe', role: 'Mentor', message: 'Por guiarme a través de las complejidades del desarrollo web.' },
-  { name: 'Jane Smith', role: 'Colega', message: 'Por ser una increíble compañera de programación en pareja.' },
-  { name: 'Universidad Tecnológica', role: 'Institución', message: 'Por proporcionar una base sólida en ciencias de la computación.' },
-  { name: 'Comunidad Open Source', role: 'Comunidad', message: 'Por los innumerables recursos y apoyo.' },
-  { name: 'Mi Familia', role: 'Sistema de Apoyo', message: 'Por su inquebrantable fe en mis habilidades.' },
+  { name: 'Introduccion a Git' },
+  { name: 'Edicion de codigo mediante creacion de ramas y combinacion en Git' },
+  { name: 'Procedimientos para crear y modificar un proyecto de Git'},
+  { name: 'Colaboracion con Git' },
+  { name: 'centificado ef', },
 ];
 
 const currentAcknowledgment = ref(0);
@@ -787,5 +793,13 @@ body {
   opacity: 0;
 }
 
+/* 13. Efecto de borde neón */
+.blur-xs {
+  filter: blur(15px);
+}
+
+.blur-sm {
+  filter: blur(15px);
+}
 
 </style>
