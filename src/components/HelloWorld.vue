@@ -1,17 +1,17 @@
 <template>
   <div :class="{ 'dark-mode': isDarkMode }" class="bg-black text-white min-h-screen">
-    <!-- Partículas de fondo -->
+    <!-- Background particles -->
     <div id="particles-js" class="fixed inset-0 z-0"></div>
 
-    <!-- Cursor personalizado -->
+    <!-- Custom cursor -->
     <div ref="cursor" class="custom-cursor"></div>
     <div ref="cursorDot" class="cursor-dot"></div>
 
-    <!-- Navegación -->
+    <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-opacity-50 bg-black backdrop-blur-md">
       <div class="container mx-auto px-6 py-3">
         <div class="flex justify-between items-center">
-          <div class="hidden md:flex space-x-4 items-center ">
+          <div class="hidden md:flex space-x-4 items-center">
             <a v-for="item in navItems" :key="item" :href="`#${item.toLowerCase()}`" 
                class="nav-item text-white hover:text-purple-400 transition-colors duration-300">
               {{ t(item) }}
@@ -24,7 +24,7 @@
       </div>
     </nav>
 
-    <!-- Hero Section con Parallax y Avatar -->
+    <!-- Hero Section with Parallax and Avatar -->
     <section id="inicio" class="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div class="container mx-auto px-6 relative z-10">
         <div class="flex flex-col items-center">
@@ -32,13 +32,13 @@
             enter-active-class="animate__animated animate__zoomIn"
             leave-active-class="animate__animated animate__zoomOut"
           >
-            <div class="relative mb-6 w-40 h-40">
+            <div class="relative mb-6 w-60 h-60">
               <!-- Neon border effect -->
-              <div class="absolute inset-0 rounded-full bg-purple-600 blur-sm"></div>
+              <div class="absolute inset-0 rounded-full bg-purple-800 blur-sm"></div>
               <div class="absolute inset-0 rounded-full bg-purple-500 blur-xs"></div>
               <!-- Image container -->
               <div class="relative rounded-full overflow-hidden z-10 w-full h-full">
-                <img src="../assets/node.jpg" alt="Avatar" class="w-full h-full object-cover" />
+                <img :src="avatarImage" alt="Avatar" class="w-full h-full object-cover" />
               </div>
             </div>
           </transition>
@@ -68,7 +68,7 @@
       <div class="parallax-bg"></div>
     </section>
 
-    <!-- Sección: Conóceme Mejor -->
+    <!-- About Me Section -->
     <section id="conoceme" class="py-20 relative overflow-hidden">
       <div class="container mx-auto px-6">
         <h2 v-animateonscroll="{
@@ -89,8 +89,8 @@
       </div>
     </section>
 
-    <!-- Misión y Visión Section -->
-    <section id="mision-vision" class="py-20 relative overflow-hidden">
+    <!-- Mission and Vision Section -->
+    <section id="mision-vision" class="py-20 relative overflow-hidden text-center">
       <div class="container mx-auto px-6">
         <div class="grid md:grid-cols-2 gap-12">
           <div ref="missionRef" :class="{ 'animate__animated animate__fadeIn': isMissionVisible }" 
@@ -107,8 +107,8 @@
       </div>
     </section>
 
-    <!-- Proyectos Section con Carrusel Creativo y Automático -->
-    <section id="proyectos" ref="proyectosSection" class="py-20 relative overflow-hidden">
+    <!-- Projects Section -->
+    <section id="proyectos" ref="proyectosSection" class="py-40 relative overflow-hidden">
       <div class="container mx-auto px-6">
         <h2 v-animateonscroll="{
           enterClass: 'animate__animated animate__fadeIn',
@@ -124,26 +124,16 @@
           >
             <div v-for="(project, index) in visibleProjects" :key="project.id" 
                  class="project-card absolute w-full md:w-2/3 lg:w-1/2 bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition-all duration-450"
-                 :style="{ zIndex: 3 - index, opacity: 1 - (index * 0.2), height: '450px' }"
-                 :class="{ 
-                   'scale-100': index === 0, 
-                   'scale-95 -translate-x-4': index === 1, 
-                   'scale-90 -translate-x-8': index === 2 
-                 }"
-                 @mouseenter="hoveredProjectId = project.id"
-                 @mouseleave="hoveredProjectId = null">
-              <img :src="project.image" :alt="project.title" class="w-full h-48 object-cover">
-              <div class="p-6 flex flex-col h-full">
-                <h3 class="text-xl font-bold mb-2 text-purple-400">{{ project.title }}</h3>
-                <p class="text-gray-400 mb-4 transition-opacity duration-300 ease-in-out overflow-y-auto max-h-42"
-                   :class="{ 'opacity-100': hoveredProjectId === project.id, 'opacity-0': hoveredProjectId !== project.id }">
-                  {{ project.description }}
-                </p>
-                <a :href="project.link" target="_blank" 
-                   class="inline-block px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors duration-300 mt-auto">
-                  {{ t('viewProject') }}
-                </a>
-              </div>
+                 :style="{ zIndex: 3 - index, opacity: 1 - (index * 0.2), transform: `scale(${1 - index * 0.05}) translateX(${index * -4}%)` }">
+              <a :href="project.link" target="_blank" class="block h-full">
+                <img :src="project.image" :alt="project.title" class="w-full h-48 ">
+                <div class="p-6 flex flex-col h-full">
+                  <h3 class="text-xl font-bold mb-2 text-purple-400">{{ project.title }}</h3>
+                  <p class="text-gray-400 mb-4 overflow-y-auto max-h-60">
+                    {{ project.description }}
+                  </p>
+                </div>
+              </a>
             </div>
           </transition-group>
           <button @click="prevProject" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700 transition-colors duration-300">
@@ -156,7 +146,7 @@
       </div>
     </section>
 
-    <!-- Habilidades Section -->
+    <!-- Skills Section -->
     <section id="habilidades" class="py-20 relative overflow-hidden">
       <div class="container mx-auto px-6">
         <h2 v-animateonscroll="{
@@ -183,7 +173,7 @@
       </div>
     </section>
 
-    <!-- Habilidades Blandas Section -->
+    <!-- Soft Skills Section -->
     <section id="habilidades-blandas" class="py-20 relative overflow-hidden">
       <div class="container mx-auto px-6">
         <h2 v-animateonscroll="{
@@ -208,7 +198,7 @@
       </div>
     </section>
 
-    <!-- Nueva sección de Reconocimientos -->
+    <!-- Certificados Section -->
     <section id="reconocimientos" class="py-10 relative overflow-hidden bg-gray-900">
       <div class="container mx-auto px-4">
         <h2 v-animateonscroll="{
@@ -228,7 +218,7 @@
             </div>
           </transition-group>
         </div>
-        <div class="flex justify-center  mt-8">
+        <div class="flex justify-center mt-8">
           <button v-for="(_, index) in acknowledgments" :key="index"
                   @click="currentAcknowledgment = index"
                   :class="[
@@ -240,20 +230,20 @@
       </div>
     </section>
 
-    <!-- Terminal Section Mejorada -->
+    <!-- Terminal Section -->
     <section id="terminal" class="py-20 relative overflow-hidden">
       <div class="container mx-auto px-6">
         <h2 v-animateonscroll="{
           enterClass: 'animate__animated animate__fadeIn',
           leaveClass: 'animate__animated animate__fadeOut'
-        }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text  bg-gradient-to-r from-purple-400 to-pink-600">
+        }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           {{ t('terminal') }}
         </h2>
         <div class="terminal-container bg-gray-900 rounded-lg p-4 shadow-lg">
           <div class="terminal-header flex justify-between items-center mb-2">
             <div class="flex space-x-2">
-              <div  class="w-3 h-3 rounded-full bg-red-500"></div>
-              <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div class="w-3 h-3 rounded-full bg-red-500"></div>
+              <div  class="w-3 h-3 rounded-full bg-yellow-500"></div>
               <div class="w-3 h-3 rounded-full bg-green-500"></div>
             </div>
             <div class="text-gray-400 text-sm">bash</div>
@@ -274,8 +264,8 @@
       </div>
     </section>
 
-    <div class="flex justify-center bottom- -5px">
-      <img src="../assets/logoSinfondo.png" alt="Logo" class="max-w-full h-auto">
+    <div class="flex justify-center bottom-5">
+      <img :src="logoImage" alt="Logo" class="max-w-full h-auto">
     </div>
     <div class="flex justify-center">
         <a href="#" class="text-2xl font-bold text-white hover:text-purple-400 transition-colors duration-300 text-center">
@@ -287,7 +277,7 @@
     <footer class="bg-gray-900 py-8">
       <div class="container mx-auto px-6">
         <div class="flex flex-col md:flex-row justify-between items-center">
-          <p  class="text-gray-400 mb-4 md:mb-0">{{ t('copyright') }}</p>
+          <p class="text-gray-400 mb-4 md:mb-0">{{ t('copyright') }}</p>
           <div class="flex space-x-4">
             <a v-for="social in socialLinks" :key="social.name" :href="social.url" target="_blank" 
                :aria-label="social.name"
@@ -302,14 +292,37 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useIntersectionObserver } from '@vueuse/core';
-import { SunIcon, MoonIcon, PaintBrushIcon, DevicePhoneMobileIcon, ServerIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid';
 import { GithubIcon, TwitterIcon, LinkedinIcon } from 'lucide-vue-next';
 import 'primeicons/primeicons.css';
 import 'primevue/resources/themes/lara-light-indigo/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'animate.css';
+
+// Import images
+import avatarImage from '../assets/node.jpg';
+import logoImage from '../assets/logoSinfondo.png';
+import EccomerceImage from '../assets/eccomerce.png';
+import ToDoListImage from '../assets/ToDoList.png';
+import MenuImage from '../assets/menu.png';
+import Cine from '../assets/cine.png';
+import SpaceXImage from '../assets/SpaceX.png';
+
+
+import express from '../assets/express.png';
+import html from '../assets/html.png';
+import java from '../assets/js.png';
+import vue from '../assets/vue.png';
+import css from '../assets/css.png';
+import github from '../assets/git.webp';
+import node from '../assets/1_bc9pmTiyKR0WNPka2w3e0Q.png';
+import mongo from '../assets/mongo.png';
+import python from '../assets/Python.svg.png';
+import sql from '../assets/sql.png';
+
+
 
 const isDarkMode = ref(true);
 const cursor = ref(null);
@@ -371,7 +384,7 @@ const t = computed(() => {
       contacto: 'Contacto',
       terminal: 'Terminal Interactiva',
       knowMeBetter: 'Sobre mi',
-      myStoryText: 'Desarrolladora junior con experiencia en diversos proyectos, fomentando la creatividad, el trabajo en equipo y la pasión por resolver problemas. Motivada para contribuir en proyectos impactantes que beneficien a la sociedad y promuevan el crecimiento personal y profesional.',
+      myStoryText: 'Motivada para contribuir a proyectos significativos que impacten positivamente a la sociedad, mientras impulso mi desarrollo personal y profesional. Mi enfoque está en la creación de soluciones innovadoras y en la colaboración efectiva dentro de equipos, siempre con el objetivo de generar un cambio tangible y mejorar la vida de las personas.',
       enterCommand: 'Ingresa un comando...',
       aboutMeTerminal: 'Soy una desarrolladora apasionada por crear soluciones innovadoras que mejoren la vida de las personas. Me encanta aprender nuevas tecnologías y enfrentar desafíos.',
       skillsTerminal: 'Mis habilidades incluyen: JavaScript, Vue.js, Node.js, Python, SQL, y más. Siempre estoy aprendiendo y mejorando mis habilidades.',
@@ -406,7 +419,7 @@ const t = computed(() => {
       terminal: 'Interactive Terminal',
       knowMeBetter: 'Get to Know Me Better',
       myStory: 'About me',
-      myStoryText: 'Young junior developer with diverse project experience, fostering creativity, teamwork, and problem-solving passion. Motivated to contribute to impactful projects that benefit society and advance personal and professional growth.',
+      myStoryText: 'Motivated to contribute to meaningful projects that positively impact society, while boosting my personal and professional development. My focus is on creating innovative solutions and effective collaboration within teams, always with the goal of generating tangible change and improving peoples lives.',
       enterCommand: 'Enter a command...',
       aboutMeTerminal: 'I\'m a developer passionate about creating innovative solutions that improve people\'s lives. I love learning new technologies and facing challenges.',
       skillsTerminal: 'My skills include: JavaScript, Vue.js, Node.js, Python, SQL, and more. I\'m always learning and improving my skills.',
@@ -420,39 +433,39 @@ const t = computed(() => {
 
 const navItems = ['inicio', 'proyectos', 'habilidades', 'contacto'];
 
-const projects = [
-  { id: 1, title: 'Eccomerce-Campus', description: 'Este proyecto permite visualizar productos, buscar por categorías, ver descripciones y elegir tallas. Además, gestiona un carrito de compras que calcula el total y facilita el checkout.', image: '/placeholder.svg?height=300&width=400', link: '#' },
-  { id: 2, title: 'ToDoList', description: 'Este proyecto de to-do list permite agregar, eliminar y marcar tareas como completadas, mostrando la fecha y hora en tiempo real.', image: '/placeholder.svg?height=300&width=400', link: '#' },
-  { id: 3, title: 'Menu', description: 'En mis inicios con HTML y CSS, creé una landing page para un menú de restaurante. La página muestra todos los productos y sus descripciones, lo que me ayudó a aprender a diseñar información de manera atractiva.', image: '/placeholder.svg?height=300&width=400', link: '#' },
-  { id: 4, title: 'CineCampus', description: 'Este proyecto, desarrollado con Node.js, es una aplicación de cine que incluye APIs y front-end. Permite a los usuarios ver películas, leer descripciones y consultar la disponibilidad de asientos, lo que me dio una gran experiencia en desarrollo full-stack.', image: '/placeholder.svg?height=300&width=400', link: '#' },
-  { id: 5, title: 'Space X', description: 'En este proyecto, utilizamos JavaScript para consumir la API de SpaceX, poniendo en práctica nuestra creatividad y  explorar datos espaciales e integrar APIs de manera efectiva.', image: '/placeholder.svg?height=300&width=400', link: '#' },
-];
+const projects = ref([
+  { id: 1, title: 'Eccomerce-Campus', description: 'Este proyecto permite visualizar productos, buscar por categorías, ver descripciones y elegir tallas. Además, gestiona un carrito de compras que calcula el total y facilita el checkout.', image: EccomerceImage, link: 'https://github.com/valentina-26/ecommerCampusM1' },
+  { id: 2, title: 'ToDoList', description: 'Este proyecto de to-do list permite agregar, eliminar y marcar tareas como completadas, mostrando la fecha y hora en tiempo real.', image: ToDoListImage, link: 'https://github.com/valentina-26/Todo-List' },
+  { id: 3, title: 'Menu', description: 'En mis inicios con HTML y CSS, creé una landing page para un menú de restaurante. La página muestra todos los productos y sus descripciones, lo que me ayudó a aprender a diseñar información de manera atractiva.', image: MenuImage, link: 'https://github.com/valentina-26/proyectoWeb.' },
+  { id: 4, title: 'CineCampus', description: 'Este proyecto, desarrollado con Node.js, es una aplicación de cine que incluye APIs y front-end. Permite a los usuarios ver películas, leer descripciones y consultar la disponibilidad de asientos, lo que me dio una gran experiencia en desarrollo full-stack.', image: Cine, link: 'https://github.com/valentina-26/cineCampus' },
+  { id: 5, title: 'Space X', description: 'En este proyecto, utilizamos JavaScript para consumir la API de SpaceX, poniendo en práctica nuestra creatividad y  explorar datos espaciales e integrar APIs de manera efectiva.', image: SpaceXImage, link: 'https://github.com/valentina-26/SpaceX' },
+]);
 
 const currentIndex = ref(0);
 const autoSlideInterval = ref(null);
 
 const visibleProjects = computed(() => {
-  const projectCount = projects.length;
+  const projectCount = projects.value.length;
   return [
-    projects[currentIndex.value],
-    projects[(currentIndex.value + 1) % projectCount],
-    projects[(currentIndex.value + 2) % projectCount]
+    projects.value[currentIndex.value],
+    projects.value[(currentIndex.value + 1) % projectCount],
+    projects.value[(currentIndex.value + 2) % projectCount]
   ];
 });
 
 const nextProject = () => {
-  currentIndex.value = (currentIndex.value + 1) % projects.length;
+  currentIndex.value = (currentIndex.value + 1) % projects.value.length;
 };
 
 const prevProject = () => {
-  currentIndex.value = (currentIndex.value - 1 + projects.length) % projects.length;
+  currentIndex.value = (currentIndex.value - 1 + projects.value.length) % projects.value.length;
 };
 
 const startAutoSlide = () => {
   stopAutoSlide();
   autoSlideInterval.value = setInterval(() => {
     nextProject();
-  }, 5000); // Cambia de proyecto cada 5 segundos
+  }, 5000); // Change project every 5 seconds
 };
 
 const stopAutoSlide = () => {
@@ -470,16 +483,16 @@ watch(isProjectsSectionVisible, (newValue) => {
 });
 
 const skills = [
-  { name: 'JavaScript', icon: '../assets/js.png' },
-  { name: 'Vue.js', icon: 'i-logos-vue' },
-  { name: 'Express', icon: 'i-logos-react' },
-  { name: 'Node.js', icon: 'i-logos-nodejs' },
-  { name: 'Python', icon: 'i-logos-python' },
-  { name: 'HTML', icon: 'i-logos-html-5' },
-  { name: 'CSS', icon: 'i-logos-css-3' },
-  { name: 'Git', icon: 'i-logos-git-icon' },
-  { name: 'MongoDB', icon: 'i-logos-mongodb' },
-  { name: 'SQL', icon: 'i-logos-mysql' },
+  { name: 'JavaScript', icon: java },
+  { name: 'Vue.js', icon: vue },
+  { name: 'Express', icon: express },
+  { name: 'Node.js', icon: node },
+  { name: 'Python', icon: python },
+  { name: 'HTML', icon: html },
+  { name: 'CSS', icon: css },
+  { name: 'Git', icon: github },
+  { name: 'MongoDB', icon: mongo },
+  { name: 'SQL', icon: sql },
 ];
 
 const softSkills = [
@@ -556,13 +569,13 @@ const executeCommand = () => {
   });
 };
 
-// Nueva sección de Reconocimientos
+// Acknowledgments section
 const acknowledgments = [
-  { name: 'Introduccion a Git' },
-  { name: 'Edicion de codigo mediante creacion de ramas y combinacion en Git' },
-  { name: 'Procedimientos para crear y modificar un proyecto de Git'},
-  { name: 'Colaboracion con Git' },
-  { name: 'centificado ef', },
+  { name: 'Introduccion a Git', imagen:java },
+  { name: 'Edicion de codigo mediante creacion de ramas y combinacion en Git',imagen:java },
+  { name: 'Procedimientos para crear y modificar un proyecto de Git',imagen:java},
+  { name: 'Colaboracion con Git',imagen:java },
+  { name: 'centificado ef' ,imagen:java},
 ];
 
 const currentAcknowledgment = ref(0);
@@ -574,7 +587,7 @@ const changeAcknowledgment = () => {
 onMounted(() => {
   document.addEventListener('mousemove', updateCursor);
 
-  // Inicializar partículas
+  // Initialize particles
   particlesJS('particles-js', {
     particles: {
       number: { value: 80, density: { enable: true, value_area: 800 } },
@@ -593,7 +606,7 @@ onMounted(() => {
     retina_detect: true
   });
 
-  // Iniciar el cambio automático de reconocimientos
+  // Start automatic acknowledgment change
   setInterval(changeAcknowledgment, 4500);
 });
 
@@ -604,21 +617,18 @@ onUnmounted(() => {
 </script>
 
 <style>
-/* 1. Importaciones externas */
 @import 'https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css';
 @import 'animate.css';
 @import 'primevue/resources/themes/lara-light-indigo/theme.css';
 @import 'primevue/resources/primevue.min.css';
 @import 'primeicons/primeicons.css';
 
-/* 2. Estilos globales */
 body {
   font-family: 'Arial', sans-serif;
   background-color: black;
   color: white;
 }
 
-/* 3. Estilos personalizados */
 .custom-cursor {
   width: 40px;
   height: 40px;
@@ -659,7 +669,6 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* 4. Estilos de navegación */
 .nav-item {
   position: relative;
   overflow: hidden;
@@ -681,7 +690,6 @@ body {
   transform: translateX(0);
 }
 
-/* 5. Efectos en tarjetas y elementos */
 .project-card, .skill-item {
   transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
@@ -691,7 +699,6 @@ body {
   box-shadow: 0 15px 30px rgba(139, 92, 246, 0.3);
 }
 
-/* 6. Partículas de fondo */
 #particles-js {
   position: absolute;
   width: 100%;
@@ -702,12 +709,10 @@ body {
   background-position: 50% 50%;
 }
 
-/* 7. Animaciones */
 .animate__animated {
   --animate-duration: 1s;
 }
 
-/* 8. Terminal */
 .terminal-container {
   max-height: 300px;
   overflow-y: auto;
@@ -742,7 +747,6 @@ body {
   100% { opacity: 0; }
 }
 
-/* 9. Efectos de parallax */
 .parallax-bg {
   position: absolute;
   top: 0;
@@ -756,7 +760,6 @@ body {
   z-index: -1;
 }
 
-/* 10. Enlaces en el terminal */
 .terminal-body a {
   color: #3b82f6;
   text-decoration: underline;
@@ -766,7 +769,6 @@ body {
   text-decoration: none;
 }
 
-/* 11. Animaciones de carrusel */
 .carousel-enter-active,
 .carousel-leave-active {
   transition: all 0.5s ease;
@@ -782,7 +784,6 @@ body {
   transform: translateX(-100%) scale(0.9);
 }
 
-/* 12. Otros efectos */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
@@ -793,7 +794,6 @@ body {
   opacity: 0;
 }
 
-/* 13. Efecto de borde neón */
 .blur-xs {
   filter: blur(15px);
 }
@@ -801,5 +801,4 @@ body {
 .blur-sm {
   filter: blur(15px);
 }
-
 </style>
