@@ -154,7 +154,7 @@
     <section id="habilidades" class="py-20 relative overflow-hidden">
       <div class="container mx-auto px-6">
         <h2 v-animateonscroll="{
-          enterClass: 'animate__animated animate__fadeIn',
+          enterClass: 'animate__animated animate__fadefile:///home/ana/Pictures/1_bc9pmTiyKR0WNPka2w3e0Q.pngIn',
           leaveClass: 'animate__animated animate__fadeOut'
         }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           {{ t('mySkills') }}
@@ -167,7 +167,9 @@
                }"
                class="skill-item text-center p-4 bg-gray-900 rounded-lg transform hover:scale-110 transition-all duration-300 flex flex-col items-center justify-center">
             <div class="skill-icon mb-2 text-3xl text-purple-500">
-              <component :is="skill.icon" class="w-8 h-8" />
+              <div class="mb-6 rounded-full overflow-hidden neon-border">
+              <img icon />
+            </div>
             </div>
             <h3 class="text-sm font-bold text-white">{{ skill.name }}</h3>
           </div>
@@ -344,9 +346,9 @@ const t = computed(() => {
       jobTitle: 'Desarrolladora FullStack junior',
       viewProjects: 'Contactame',
       mission: 'Mi misión',
-      missionText: 'Mi misión es crear soluciones digitales innovadoras que mejoren la vida de las personas y transformen la manera en que interactuamos con la tecnología.',
+      missionText: 'Desarrollar soluciones creativas y eficientes, enfocadas en la tecnología, que mejoren la vida de las personas. Me destaco por mi energía, curiosidad y pasión por resolver problemas que marquen la diferencia.',
       vision: 'Mi visión',
-      visionText: 'Mi visión es ser un líder en el desarrollo de experiencias digitales intuitivas y accesibles, contribuyendo al avance tecnológico de manera ética y sostenible.',
+      visionText: 'Convertirme en una desarrolladora líder, creando proyectos tecnológicos innovadores con impacto social. Quiero trabajar en empresas que compartan mi pasión por mejorar vidas, desarrollando habilidades avanzadas en programación, diseño de sistemas y trabajo en equipo, con una mentalidad de aprendizaje continuo',
       myProjects: 'Mis Proyectos',
       viewProject: 'Ver Proyecto',
       mySkills: 'Mis habilidades tecnicas',
@@ -378,9 +380,9 @@ const t = computed(() => {
       jobTitle: 'Junior Fullstack developer',
       viewProjects: 'View Projects',
       mission: 'My mission',
-      missionText: 'My mission is to create innovative digital solutions that improve people\'s lives and transform the way we interact with technology.',
+      missionText: 'Develop creative and efficient solutions, focused on technology, that improve peoples lives. I stand out for my energy, curiosity and passion for solving problems that make a difference.',
       vision: 'My vision',
-      visionText: 'My vision is to be a leader in developing intuitive and accessible digital experiences, contributing to technological advancement in an ethical and sustainable manner.',
+      visionText: 'To become a leading developer, creating innovative technology projects with social impact. I want to work in companies that share my passion for improving lives, developing advanced skills in programming, system design and teamwork, with a continuous learning mentality.',
       myProjects: 'My Projects',
       viewProject: 'View Project',
       mySkills: 'My hard skills',
@@ -462,13 +464,13 @@ watch(isProjectsSectionVisible, (newValue) => {
 });
 
 const skills = [
-  { name: 'JavaScript', icon: 'i-logos-javascript' },
+  { name: 'JavaScript', icon: '../assets/js.png' },
   { name: 'Vue.js', icon: 'i-logos-vue' },
-  { name: 'React', icon: 'i-logos-react' },
+  { name: 'Express', icon: 'i-logos-react' },
   { name: 'Node.js', icon: 'i-logos-nodejs' },
   { name: 'Python', icon: 'i-logos-python' },
-  { name: 'HTML5', icon: 'i-logos-html-5' },
-  { name: 'CSS3', icon: 'i-logos-css-3' },
+  { name: 'HTML', icon: 'i-logos-html-5' },
+  { name: 'CSS', icon: 'i-logos-css-3' },
   { name: 'Git', icon: 'i-logos-git-icon' },
   { name: 'MongoDB', icon: 'i-logos-mongodb' },
   { name: 'SQL', icon: 'i-logos-mysql' },
@@ -478,6 +480,7 @@ const softSkills = [
   { name: 'Comunicación', icon: 'pi pi-comments' },
   { name: 'Trabajo en equipo', icon: 'pi pi-users' },
   { name: 'Resolución de problemas', icon: 'pi pi-cog' },
+  { name: 'liderazgo', icon: 'pi-user' },
 ];
 
 const socialLinks = [
