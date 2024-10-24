@@ -126,7 +126,7 @@
                  class="project-card absolute w-full md:w-2/3 lg:w-1/2 bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition-all duration-450"
                  :style="{ zIndex: 3 - index, opacity: 1 - (index * 0.2), transform: `scale(${1 - index * 0.05}) translateX(${index * -4}%)` }">
               <a :href="project.link" target="_blank" class="block h-full">
-                <img :src="project.image" :alt="project.title" class="w-full h-48 ">
+                <img :src="project.image" :alt="project.title" class="w-full h-48 object-cover">
                 <div class="p-6 flex flex-col h-full">
                   <h3 class="text-xl font-bold mb-2 text-purple-400">{{ project.title }}</h3>
                   <p class="text-gray-400 mb-4 overflow-y-auto max-h-60">
@@ -173,34 +173,35 @@
       </div>
     </section>
 
-    <!-- Soft Skills Section -->
+    <!-- Soft Skills Section (Updated) -->
     <section id="habilidades-blandas" class="py-20 relative overflow-hidden">
       <div class="container mx-auto px-6">
         <h2 v-animateonscroll="{
           enterClass: 'animate__animated animate__fadeIn',
           leaveClass: 'animate__animated animate__fadeOut'
         }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
-          {{ t('HabilidadesBlandas') }}
+          {{ t('softSkills') }}
         </h2>
-        <div class="flex justify-center space-x-8">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           <div v-for="(skill, index) in softSkills" :key="index" 
                v-animateonscroll="{
                  enterClass: 'animate__animated animate__zoomIn',
                  leaveClass: 'animate__animated animate__zoomOut'
                }"
-               class="skill-item text-center p-6 bg-gray-900 rounded-full w-40 h-40 transform hover:scale-110 transition-all duration-300 flex flex-col items-center justify-center">
-            <div class="skill-icon mb-3 text-4xl text-purple-500">
+               class="skill-item text-center p-6 bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <div class="skill-icon mb-4 text-5xl" :class="skill.color">
               <i :class="skill.icon"></i>
             </div>
-            <h3 class="text-sm font-bold text-white">{{ skill.name }}</h3>
+            <h3 class="text-lg font-semibold text-white mb-2">{{ skill.name }}</h3>
+            <p class="text-sm text-gray-400">{{ skill.description }}</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Certificados Section -->
-    <section id="reconocimientos" class="py-10 relative overflow-hidden bg-gray-900">
-      <div class="container mx-auto px-4">
+    <section id="reconocimientos" class="py-20 relative overflow-hidden bg-gray-900">
+      <div class="container mx-auto px-20">
         <h2 v-animateonscroll="{
           enterClass: 'animate__animated animate__fadeIn',
           leaveClass: 'animate__animated animate__fadeOut'
@@ -211,10 +212,9 @@
           <transition-group name="fade" tag="div">
             <div v-for="(ack, index) in acknowledgments" :key="ack.name"
                  v-show="index === currentAcknowledgment"
-                 class="absolute inset-0 flex flex-col items-center justify-center bg-gray-800 rounded-lg p-6 text-center">
+                 class="absolute inset-0 flex flex-col items-center justify-center bg-gray-800 rounded-lg  text-center">
+              <img :src="ack.imagen" :alt="ack.name" class=" h-48  mb-4 ">
               <h3 class="text-2xl font-semibold mb-2 text-white">{{ ack.name }}</h3>
-              <p class="text-purple-400 mb-4">{{ ack.role }}</p>
-              <p class="text-gray-300">{{ ack.message }}</p>
             </div>
           </transition-group>
         </div>
@@ -236,11 +236,11 @@
         <h2 v-animateonscroll="{
           enterClass: 'animate__animated animate__fadeIn',
           leaveClass: 'animate__animated animate__fadeOut'
-        }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+        }" class="text-4xl font-bold mb-12 text-center  text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           {{ t('terminal') }}
         </h2>
         <div class="terminal-container bg-gray-900 rounded-lg p-4 shadow-lg">
-          <div class="terminal-header flex justify-between items-center mb-2">
+          <div class="terminal-header flex  justify-between items-center mb-2">
             <div class="flex space-x-2">
               <div class="w-3 h-3 rounded-full bg-red-500"></div>
               <div  class="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -267,11 +267,7 @@
     <div class="flex justify-center bottom-5">
       <img :src="logoImage" alt="Logo" class="max-w-full h-auto">
     </div>
-    <div class="flex justify-center">
-        <a href="#" class="text-2xl font-bold text-white hover:text-purple-400 transition-colors duration-300 text-center">
-            {{ t('myPortfolio') }}
-        </a>
-    </div>
+    
 
     <!-- Footer -->
     <footer class="bg-gray-900 py-8">
@@ -310,7 +306,6 @@ import MenuImage from '../assets/menu.png';
 import Cine from '../assets/cine.png';
 import SpaceXImage from '../assets/SpaceX.png';
 
-
 import express from '../assets/express.png';
 import html from '../assets/html.png';
 import java from '../assets/js.png';
@@ -322,7 +317,10 @@ import mongo from '../assets/mongo.png';
 import python from '../assets/Python.svg.png';
 import sql from '../assets/sql.png';
 
-
+import colaboración from '../assets/colaboracion.png';
+import edicion from '../assets/edicion.png';
+import intro from '../assets/IntroGit.png';
+import Procedimientos from '../assets/procedimientos.png';
 
 const isDarkMode = ref(true);
 const cursor = ref(null);
@@ -371,13 +369,13 @@ const t = computed(() => {
       myProjects: 'Mis Proyectos',
       viewProject: 'Ver Proyecto',
       mySkills: 'Mis habilidades tecnicas',
-      HabilidadesBlandas: 'Mis Habilidades blandas',
+      softSkills: 'Mis Habilidades Blandas',
       contactMe: 'Contactame',
       name: 'Nombre',
       email: 'Email',
       message: 'Mensaje',
       sendMessage: 'Enviar Mensaje',
-      copyright: '© 2023 Ana Valentina Castro. Todos los derechos reservados.',
+      copyright: '© 2024 Ana Valentina Castro. Codificando sueños linea a linea.',
       inicio: 'Inicio',
       proyectos: 'Proyectos',
       habilidades: 'Habilidades',
@@ -405,13 +403,13 @@ const t = computed(() => {
       myProjects: 'My Projects',
       viewProject: 'View Project',
       mySkills: 'My hard skills',
-      HabilidadesBlandas: 'My soft skills',
+      softSkills: 'My Soft Skills',
       contactMe: 'Contact Me',
       name: 'Name',
       email: 'Email',
       message: 'Message',
       sendMessage: 'Send Message',
-      copyright: '© 2023 Ana Valentina Castro. All rights reserved.',
+      copyright: '© 202 Ana Valentina Castro. Coding dreams line by line',
       inicio: 'Home',
       proyectos: 'Projects',
       habilidades: 'Skills',
@@ -495,12 +493,56 @@ const skills = [
   { name: 'SQL', icon: sql },
 ];
 
-const softSkills = [
-  { name: 'Comunicación', icon: 'pi pi-comments' },
-  { name: 'Trabajo en equipo', icon: 'pi pi-users' },
-  { name: 'Resolución de problemas', icon: 'pi pi-cog' },
-  { name: 'liderazgo', icon: 'pi-user' },
-];
+const softSkills = ref([
+  { 
+    name: 'Comunicación Efectiva', 
+    icon: 'pi pi-comments', 
+    color: 'text-blue-400',
+    description: 'Habilidad para expresar ideas de manera clara y persuasiva.'
+  },
+  { 
+    name: 'Trabajo en Equipo', 
+    icon: 'pi pi-users', 
+    color: 'text-green-400',
+    description: 'Capacidad para colaborar y contribuir en grupos diversos.'
+  },
+  { 
+    name: 'Resolución de Problemas', 
+    icon: 'pi pi-cog',
+    color: 'text-yellow-400',
+    description: 'Enfoque analítico para abordar desafíos complejos.'
+  },
+  { 
+    name: 'Liderazgo', 
+    icon: 'pi pi-star', 
+    color: 'text-purple-400',
+    description: 'Habilidad para inspirar y guiar a otros hacia objetivos comunes.'
+  },
+  { 
+    name: 'Adaptabilidad', 
+    icon: 'pi pi-refresh', 
+    color: 'text-indigo-400',
+    description: 'Flexibilidad para ajustarse a nuevas situaciones y tecnologías.'
+  },
+  { 
+    name: 'Creatividad', 
+    icon: 'pi pi-palette', 
+    color: 'text-pink-400',
+    description: 'Capacidad para generar ideas innovadoras y soluciones originales.'
+  },
+  { 
+    name: 'Gestión del Tiempo', 
+    icon: 'pi pi-clock', 
+    color: 'text-red-400',
+    description: 'Habilidad para priorizar tareas y cumplir plazos eficientemente.'
+  },
+  { 
+    name: 'Empatía', 
+    icon: 'pi pi-heart', 
+    color: 'text-orange-400',
+    description: 'Capacidad para entender y considerar las perspectivas de otros.'
+  }
+]);
 
 const socialLinks = [
   { name: 'GitHub', icon: GithubIcon, url: 'https://github.com/valentina-26?tab=repositories' },
@@ -523,7 +565,7 @@ const terminalInput = ref('');
 const executeCommand = () => {
   const command = terminalInput.value.trim().toLowerCase();
   terminalLines.value.push(`$ ${command}`);
-  
+
   switch (command) {
     case 'help':
       terminalLines.value.push('Comandos disponibles:');
@@ -571,11 +613,11 @@ const executeCommand = () => {
 
 // Acknowledgments section
 const acknowledgments = [
-  { name: 'Introduccion a Git', imagen:java },
-  { name: 'Edicion de codigo mediante creacion de ramas y combinacion en Git',imagen:java },
-  { name: 'Procedimientos para crear y modificar un proyecto de Git',imagen:java},
-  { name: 'Colaboracion con Git',imagen:java },
-  { name: 'centificado ef' ,imagen:java},
+  { name: 'Introduccion a Git', imagen: intro },
+  { name: 'Edicion de codigo mediante creacion de ramas y combinacion en Git', imagen: edicion },
+  { name: 'Procedimientos para crear y modificar un proyecto de Git', imagen: Procedimientos },
+  { name: 'Colaboracion con Git', imagen: colaboración },
+  { name: 'Certificado EF', imagen: java },
 ];
 
 const currentAcknowledgment = ref(0);
@@ -800,5 +842,21 @@ body {
 
 .blur-sm {
   filter: blur(15px);
+}
+
+.skill-item {
+  transition: all 0.3s ease;
+}
+
+.skill-item:hover {
+  transform: translateY(-5px);
+}
+
+.skill-icon {
+  transition: all 0.3s ease;
+}
+
+.skill-item:hover .skill-icon {
+  transform: scale(1.1);
 }
 </style>
