@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'dark-mode': isDarkMode }" class="bg-black text-white min-h-screen">
+  <div :class="{ 'dark-mode': isDarkMode }" class="bg-black text-white min-h-screen font-extrabold">
     <!-- Background particles -->
     <div id="particles-js" class="fixed inset-0 z-0"></div>
 
@@ -13,10 +13,10 @@
         <div class="flex justify-between items-center">
           <div class="hidden md:flex space-x-4 items-center">
             <a v-for="item in navItems" :key="item" :href="`#${item.toLowerCase()}`" 
-               class="nav-item text-white hover:text-purple-400 transition-colors duration-300">
+               class="nav-item text-white hover:text-purple-400 transition-colors duration-300 font-extrabold">
               {{ t(item) }}
             </a>
-            <button @click="toggleLanguage" class="language-toggle p-2 rounded-full bg-purple-600 text-white">
+            <button @click="toggleLanguage" class="language-toggle p-2 rounded-full bg-purple-600 text-white font-extrabold">
               {{ currentLanguage === 'es' ? 'EN' : 'ES' }}
             </button>
           </div>
@@ -26,7 +26,10 @@
 
     <!-- Hero Section with Parallax and Avatar -->
     <section id="inicio" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div class="container mx-auto px-6 relative z-10">
+      <div v-animateonscroll="{
+            enterClass: 'animate__animated animate__zoomIn',
+            leaveClass: 'animate__animated animate__zoomOut'
+          }" class="container mx-auto px-6 relative z-10">
         <div class="flex flex-col items-center">
           <transition
             enter-active-class="animate__animated animate__zoomIn"
@@ -45,20 +48,20 @@
           <h1 v-animateonscroll="{
             enterClass: 'animate__animated animate__zoomIn',
             leaveClass: 'animate__animated animate__zoomOut'
-          }" class="text-5xl md:text-7xl font-bold mb-4 text-center animate-text-gradient">
-            {{ t('hello') }} <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">{{ t('yourName') }}</span>
+          }" class="text-5xl md:text-7xl font-bold font-extrabold mb-4 text-center animate-text-gradient">
+            {{ t('hello') }} <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-extrabold">{{ t('yourName') }}</span>
           </h1>
           <p v-animateonscroll="{
             enterClass: 'animate__animated animate__fadeInUp',
             leaveClass: 'animate__animated animate__fadeOutDown'
-          }" class="text-xl md:text-2xl mb-8 text-center">
+          }" class="text-xl md:text-2xl mb-8 text-center font-extrabold">
             {{ t('jobTitle') }}
           </p>
           <div v-animateonscroll="{
             enterClass: 'animate__animated animate__zoomIn',
             leaveClass: 'animate__animated animate__zoomOut'
           }" class="text-center">
-            <a href="#terminal" class="inline-block px-8 py-3 border border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white transition-all duration-300 rounded-full animate-pulse">
+            <a href="#terminal" class="inline-block px-8 py-3 border border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white transition-all duration-300 rounded-full animate-pulse font-extrabold">
               {{ t('viewProjects') }}
             </a>
           </div>
@@ -70,20 +73,39 @@
 
     <!-- About Me Section -->
     <section id="conoceme" class="py-20 relative overflow-hidden">
-      <div class="container mx-auto px-6">
-        <h2 v-animateonscroll="{
-          enterClass: 'animate__animated animate__fadeIn',
-          leaveClass: 'animate__animated animate__fadeOut'
-        }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
-          {{ t('knowMeBetter') }}
-        </h2>
-        <div class="grid md:grid-cols-1 gap-12 text-center">
+      <div v-animateonscroll="{
+          enterClass: 'animate__animated animate__zoomIn',
+          leaveClass: 'animate__animated animate__zoomOut'
+        }" class="container mx-auto px-6">
+
+        <div class="grid md:grid-cols-2 gap-12">
           <div v-animateonscroll="{
             enterClass: 'animate__animated animate__zoomIn',
             leaveClass: 'animate__animated animate__zoomOut'
-          }" class="bg-gray-900 p-6 rounded-lg shadow-lg">
-            <h3 class="text-2xl font-bold mb-4 text-purple-400">{{ t('myStory') }}</h3>
-            <p class="text-gray-300">{{ t('myStoryText') }}</p>
+          }" class="bg-gray-900 p-6 rounded-lg shadow-lg flex flex-col justify-center h-full">
+                  <h2 v-animateonscroll="{
+          enterClass: 'animate__animated animate__fadeIn',
+          leaveClass: 'animate__animated animate__fadeOut'
+        }" class="text-4xl font-bold font-extrabold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+          {{ t('knowMeBetter') }}
+        </h2>
+            <h3 class="text-2xl font-bold font-extrabold mb-4 text-purple-400">
+              
+            </h3>
+            <p class="text-gray-300 text-center font-extrabold">{{ t('myStoryText') }}</p>
+          </div>
+          <div class="relative">
+            <div class="absolute inset-0 rounded-lg bg-purple-800 blur-sm"></div>
+            <div class="absolute inset-0 rounded-lg bg-purple-500 blur-xs"></div>
+            <div class="relative rounded-lg overflow-hidden z-10 w-full h-full">
+              <video autoplay loop muted playsinline v-animateonscroll="{
+                enterClass: 'animate__animated animate__zoomIn',
+                leaveClass: 'animate__animated animate__zoomOut'
+              }" class="w-full h-full object-cover">
+                <source src="../assets/videoMe.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
           </div>
         </div>
       </div>
@@ -91,17 +113,20 @@
 
     <!-- Mission and Vision Section -->
     <section id="mision-vision" class="py-20 relative overflow-hidden text-center">
-      <div class="container mx-auto px-6">
+      <div v-animateonscroll="{
+          enterClass: 'animate__animated animate__zoomIn',
+          leaveClass: 'animate__animated animate__zoomOut'
+        }" class="container mx-auto px-6">
         <div class="grid md:grid-cols-2 gap-12">
           <div ref="missionRef" :class="{ 'animate__animated animate__fadeIn': isMissionVisible }" 
                class="mission bg-purple-900 bg-opacity-50 p-8 rounded-lg transform hover:scale-105 transition-transform duration-300 backdrop-blur-md">
-            <h2 class="text-3xl font-bold mb-4 text-purple-400">{{ t('mission') }}</h2>
-            <p class="text-gray-300">{{ t('missionText') }}</p>
+            <h2 class="text-3xl font-bold font-extrabold mb-4 text-purple-400">{{ t('mission') }}</h2>
+            <p class="text-gray-300 font-extrabold">{{ t('missionText') }}</p>
           </div>
           <div ref="visionRef" :class="{ 'animate__animated animate__fadeIn': isVisionVisible }" 
                class="vision bg-pink-900 bg-opacity-50 p-8 rounded-lg transform hover:scale-105 transition-transform duration-300 backdrop-blur-md">
-            <h2 class="text-3xl font-bold mb-4 text-pink-400">{{ t('vision') }}</h2>
-            <p class="text-gray-300">{{ t('visionText') }}</p>
+            <h2 class="text-3xl font-bold font-extrabold mb-4 text-pink-400">{{ t('vision') }}</h2>
+            <p class="text-gray-300 font-extrabold">{{ t('visionText') }}</p>
           </div>
         </div>
       </div>
@@ -109,11 +134,14 @@
 
     <!-- Projects Section -->
     <section id="proyectos" ref="proyectosSection" class="py-40 relative overflow-hidden">
-      <div class="container mx-auto px-6">
+      <div v-animateonscroll="{
+          enterClass: 'animate__animated animate__zoomIn',
+          leaveClass: 'animate__animated animate__zoomOut'
+        }" class="container mx-auto px-6">
         <h2 v-animateonscroll="{
           enterClass: 'animate__animated animate__fadeIn',
           leaveClass: 'animate__animated animate__fadeOut'
-        }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+        }" class="text-4xl font-bold font-extrabold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           {{ t('myProjects') }}
         </h2>
         <div class="relative">
@@ -128,18 +156,18 @@
               <a :href="project.link" target="_blank" class="block h-full">
                 <img :src="project.image" :alt="project.title" class="w-full h-48 object-cover">
                 <div class="p-6 flex flex-col h-full">
-                  <h3 class="text-xl font-bold mb-2 text-purple-400">{{ project.title }}</h3>
-                  <p class="text-gray-400 mb-4 overflow-y-auto max-h-60">
-                    {{ project.description }}
+                  <h3 class="text-xl font-bold font-extrabold mb-2 text-purple-400">{{ project.title }}</h3>
+                  <p class="text-gray-400 mb-4 overflow-y-auto max-h-60 font-extrabold">
+                    {{ t(project.description) }}
                   </p>
                 </div>
               </a>
             </div>
           </transition-group>
-          <button @click="prevProject" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700 transition-colors duration-300">
+          <button @click="prevProject" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700 transition-colors duration-300 font-extrabold">
             <ChevronLeftIcon class="w-6 h-6" />
           </button>
-          <button @click="nextProject" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700 transition-colors duration-300">
+          <button @click="nextProject" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700 transition-colors duration-300 font-extrabold">
             <ChevronRightIcon class="w-6 h-6" />
           </button>
         </div>
@@ -148,11 +176,14 @@
 
     <!-- Skills Section -->
     <section id="habilidades" class="py-20 relative overflow-hidden">
-      <div class="container mx-auto px-6">
+      <div v-animateonscroll="{
+          enterClass: 'animate__animated animate__zoomIn',
+          leaveClass: 'animate__animated animate__zoomOut'
+        }" class="container mx-auto px-6">
         <h2 v-animateonscroll="{
           enterClass: 'animate__animated animate__fadeIn',
           leaveClass: 'animate__animated animate__fadeOut'
-        }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+        }" class="text-4xl font-bold font-extrabold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           {{ t('mySkills') }}
         </h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -167,19 +198,22 @@
                 <img :src="skill.icon" :alt="skill.name" class="w-12 h-12 object-cover" />
               </div>
             </div>
-            <h3 class="text-sm font-bold text-white">{{ skill.name }}</h3>
+            <h3 class="text-sm font-bold font-extrabold text-white">{{ skill.name }}</h3>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Soft Skills Section (Updated) -->
+    <!-- Soft Skills Section -->
     <section id="habilidades-blandas" class="py-20 relative overflow-hidden">
-      <div class="container mx-auto px-6">
+      <div v-animateonscroll="{
+          enterClass: 'animate__animated animate__zoomIn',
+          leaveClass: 'animate__animated animate__zoomOut'
+        }" class="container mx-auto px-6">
         <h2 v-animateonscroll="{
           enterClass: 'animate__animated animate__fadeIn',
           leaveClass: 'animate__animated animate__fadeOut'
-        }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+        }" class="text-4xl font-bold font-extrabold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           {{ t('softSkills') }}
         </h2>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
@@ -192,20 +226,24 @@
             <div class="skill-icon mb-4 text-5xl" :class="skill.color">
               <i :class="skill.icon"></i>
             </div>
-            <h3 class="text-lg font-semibold text-white mb-2">{{ skill.name }}</h3>
-            <p class="text-sm text-gray-400">{{ skill.description }}</p>
+            <h3 class="text-lg font-semibold font-extrabold text-white mb-2">{{ t(skill.name) }}</h3>
+            <p class="text-sm text-gray-400 font-extrabold">{{ t(skill.description) }}</p>
           </div>
         </div>
+      
       </div>
     </section>
 
     <!-- Certificados Section -->
     <section id="reconocimientos" class="py-20 relative overflow-hidden bg-gray-900">
-      <div class="container mx-auto px-20">
+      <div v-animateonscroll="{
+          enterClass: 'animate__animated animate__zoomIn',
+          leaveClass: 'animate__animated animate__zoomOut'
+        }" class="container mx-auto px-20">
         <h2 v-animateonscroll="{
           enterClass: 'animate__animated animate__fadeIn',
           leaveClass: 'animate__animated animate__fadeOut'
-        }" class="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+        }" class="text-4xl font-bold font-extrabold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           {{ t('acknowledgments') }}
         </h2>
         <div class="relative h-80">
@@ -214,7 +252,7 @@
                  v-show="index === currentAcknowledgment"
                  class="absolute inset-0 flex flex-col items-center justify-center bg-gray-800 rounded-lg  text-center">
               <img :src="ack.imagen" :alt="ack.name" class=" h-48  mb-4 ">
-              <h3 class="text-2xl font-semibold mb-2 text-white">{{ ack.name }}</h3>
+              <h3 class="text-2xl font-semibold font-extrabold mb-2 text-white">{{ t(ack.name) }}</h3>
             </div>
           </transition-group>
         </div>
@@ -231,12 +269,15 @@
     </section>
 
     <!-- Terminal Section -->
-    <section id="terminal" class="py-20 relative overflow-hidden">
-      <div class="container mx-auto px-6">
+    <section id="terminal" class="py-20 relative  overflow-hidden">
+      <div v-animateonscroll="{
+          enterClass: 'animate__animated animate__zoomIn',
+          leaveClass: 'animate__animated animate__zoomOut'
+        }" class="container mx-auto px-6">
         <h2 v-animateonscroll="{
           enterClass: 'animate__animated animate__fadeIn',
           leaveClass: 'animate__animated animate__fadeOut'
-        }" class="text-4xl font-bold mb-12 text-center  text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+        }" class="text-4xl font-bold font-extrabold mb-12 text-center  text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
           {{ t('terminal') }}
         </h2>
         <div class="terminal-container bg-gray-900 rounded-lg p-4 shadow-lg">
@@ -246,17 +287,17 @@
               <div  class="w-3 h-3 rounded-full bg-yellow-500"></div>
               <div class="w-3 h-3 rounded-full bg-green-500"></div>
             </div>
-            <div class="text-gray-400 text-sm">bash</div>
+            <div class="text-gray-400 text-sm font-extrabold">bash</div>
           </div>
           <div class="terminal-body font-mono text-sm h-64 overflow-y-auto">
-            <div v-for="(line, index) in terminalLines" :key="index" class="mb-1">
-              <span class="text-green-400">$</span> 
+            <div v-for="(line, index) in terminalLines" :key="index" class="mb-1 font-extrabold">
+              <span class="text-green-400 font-extrabold">$</span> 
               <span v-html="line"></span>
             </div>
             <div class="flex items-center">
-              <span class="text-green-400">$</span> 
+              <span class="text-green-400 font-extrabold">$</span> 
               <input v-model="terminalInput" @keyup.enter="executeCommand" 
-                     class="ml-2 bg-transparent outline-none flex-grow text-green-400" 
+                     class="ml-2 bg-transparent outline-none flex-grow text-green-400 font-extrabold" 
                      type="text" :placeholder="t('enterCommand')">
             </div>
           </div>
@@ -273,11 +314,11 @@
     <footer class="bg-gray-900 py-8">
       <div class="container mx-auto px-6">
         <div class="flex flex-col md:flex-row justify-between items-center">
-          <p class="text-gray-400 mb-4 md:mb-0">{{ t('copyright') }}</p>
+          <p class="text-gray-400 mb-4 md:mb-0 font-extrabold">{{ t('copyright') }}</p>
           <div class="flex space-x-4">
             <a v-for="social in socialLinks" :key="social.name" :href="social.url" target="_blank" 
                :aria-label="social.name"
-               class="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+               class="text-gray-400 hover:text-purple-400 transition-colors duration-300 font-extrabold">
               <component :is="social.icon" class="w-6 h-6" />
             </a>
           </div>
@@ -288,7 +329,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
 import { useIntersectionObserver } from '@vueuse/core';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid';
 import { GithubIcon, TwitterIcon, LinkedinIcon } from 'lucide-vue-next';
@@ -389,54 +430,105 @@ const t = computed(() => {
       aboutCommand: 'Desarrolladora junior con experiencia en diversos proyectos, fomentando la creatividad, el trabajo en equipo y la pasión por resolver problemas. Motivada para contribuir en proyectos impactantes que beneficien a la sociedad y promuevan el crecimiento personal y profesional.',
       skillsCommand: 'Mis habilidades incluyen: liderazgo, creatividad, proactividad, JavaScript, Vue, MongoDB, MySQL, entre otras.',
       acknowledgments: 'Certificados',
+      'Eccomerce-Campus': 'Este proyecto permite visualizar productos, buscar por categorías, ver descripciones y elegir tallas. Además, gestiona un carrito de compras que calcula el total y facilita el checkout.',
+      'ToDoList': 'Este proyecto de to-do list permite agregar, eliminar y marcar tareas como completadas, mostrando la fecha y hora en tiempo real.',
+      'Menu': 'En mis inicios con HTML y CSS, creé una landing page para un menú de restaurante. La página muestra todos los productos y sus descripciones, lo que me ayudó a aprender a diseñar información de manera atractiva.',
+      'CineCampus': 'Este proyecto, desarrollado con Node.js, es una aplicación de cine que incluye APIs y front-end. Permite a los usuarios ver películas, leer descripciones y consultar la disponibilidad de asientos, lo que me dio una gran experiencia en desarrollo full-stack.',
+      'Space X': 'En este proyecto, utilizamos JavaScript para consumir la API de SpaceX, poniendo en práctica nuestra creatividad y  explorar datos espaciales e integrar APIs de manera efectiva.',
+      'Comunicación Efectiva': 'Comunicación Efectiva',
+      'Trabajo en Equipo': 'Trabajo en Equipo',
+      'Resolución de Problemas': 'Resolución de Problemas',
+      'Liderazgo': 'Liderazgo',
+      'Adaptabilidad': 'Adaptabilidad',
+      'Creatividad': 'Creatividad',
+      'Gestión del Tiempo': 'Gestión del Tiempo',
+      'Empatía': 'Empatía',
+      'Habilidad para expresar ideas de manera clara y persuasiva.': 'Habilidad para expresar ideas de manera clara y persuasiva.',
+      'Capacidad para colaborar y contribuir en grupos diversos.': 'Capacidad para colaborar y contribuir en grupos diversos.',
+      'Enfoque analítico para abordar desafíos complejos.': 'Enfoque analítico para abordar desafíos complejos.',
+      'Habilidad para inspirar y guiar a otros hacia objetivos comunes.': 'Habilidad para inspirar y guiar a otros hacia objetivos comunes.',
+      'Flexibilidad para ajustarse a nuevas situaciones y tecnologías.': 'Flexibilidad para ajustarse a nuevas situaciones y tecnologías.',
+      'Capacidad para generar ideas innovadoras y soluciones originales.': 'Capacidad para generar ideas innovadoras y soluciones originales.',
+      'Habilidad para priorizar tareas y cumplir plazos eficientemente.': 'Habilidad para priorizar tareas y cumplir plazos eficientemente.',
+      'Capacidad para entender y considerar las perspectivas de otros.': 'Capacidad para entender y considerar las perspectivas de otros.',
+      'Introduccion a Git': 'Introduccion a Git',
+      'Edicion de codigo mediante creacion de ramas y combinacion en Git': 'Edicion de codigo mediante creacion de ramas y combinacion en Git',
+      'Procedimientos para crear y modificar un proyecto de Git': 'Procedimientos para crear y modificar un proyecto de Git',
+      'Colaboracion con Git': 'Colaboracion con Git',
+      'Certificado EF': 'Certificado EF',
     },
     en: {
       myPortfolio: 'Coding dreams line by line',
       hello: 'Hello, I\'m',
       yourName: 'Ana Valentina Castro Sandoval',
-      jobTitle: 'Junior Fullstack developer',
-      viewProjects: 'View Projects',
-      mission: 'My mission',
-      missionText: 'Develop creative and efficient solutions, focused on technology, that improve peoples lives. I stand out for my energy, curiosity and passion for solving problems that make a difference.',
-      vision: 'My vision',
-      visionText: 'To become a leading developer, creating innovative technology projects with social impact. I want to work in companies that share my passion for improving lives, developing advanced skills in programming, system design and teamwork, with a continuous learning mentality.',
+      jobTitle: 'Junior Fullstack Developer',
+      viewProjects: 'Contact Me',
+      mission: 'My Mission',
+      missionText: 'To develop creative and efficient technology-focused solutions that improve people\'s lives. I stand out for my energy, curiosity, and passion for solving problems that make a difference.',
+      vision: 'My Vision',
+      visionText: 'To become a leading developer, creating innovative technology projects with social impact. I want to work in companies that share my passion for improving lives, developing advanced skills in programming, system design, and teamwork, with a continuous learning mindset.',
       myProjects: 'My Projects',
       viewProject: 'View Project',
-      mySkills: 'My hard skills',
+      mySkills: 'My Technical Skills',
       softSkills: 'My Soft Skills',
       contactMe: 'Contact Me',
       name: 'Name',
       email: 'Email',
       message: 'Message',
       sendMessage: 'Send Message',
-      copyright: '© 202 Ana Valentina Castro. Coding dreams line by line',
+      copyright: '© 2024 Ana Valentina Castro. Coding dreams line by line.',
       inicio: 'Home',
       proyectos: 'Projects',
       habilidades: 'Skills',
       contacto: 'Contact',
       terminal: 'Interactive Terminal',
-      knowMeBetter: 'Get to Know Me Better',
-      myStory: 'About me',
-      myStoryText: 'Motivated to contribute to meaningful projects that positively impact society, while boosting my personal and professional development. My focus is on creating innovative solutions and effective collaboration within teams, always with the goal of generating tangible change and improving peoples lives.',
+      knowMeBetter: 'About Me',
+      myStoryText: 'Motivated to contribute to meaningful projects that positively impact society, while boosting my personal and professional development. My focus is on creating innovative solutions and effective collaboration within teams, always with the goal of generating tangible change and improving people\'s lives.',
       enterCommand: 'Enter a command...',
       aboutMeTerminal: 'I\'m a developer passionate about creating innovative solutions that improve people\'s lives. I love learning new technologies and facing challenges.',
       skillsTerminal: 'My skills include: JavaScript, Vue.js, Node.js, Python, SQL, and more. I\'m always learning and improving my skills.',
-      aboutCommand: 'Young junior developer with diverse project experience, fostering creativity, teamwork, and problem-solving passion. Motivated to contribute to impactful projects that benefit society and advance personal and professional growth.',
+      aboutCommand: 'Junior developer with diverse project experience, fostering creativity, teamwork, and problem-solving passion. Motivated to contribute to impactful projects that benefit society and advance personal and professional growth.',
       skillsCommand: 'My skills include: leadership, creativity, proactivity, JavaScript, Vue, MongoDB, MySQL, among others.',
-      acknowledgments: 'Acknowledgments',
+      acknowledgments: 'Certificates',
+      'Eccomerce-Campus': 'This project allows viewing products, searching by categories, seeing descriptions, and choosing sizes. It also manages a shopping cart that calculates the total and facilitates checkout.',
+      'ToDoList': 'This to-do list project allows adding, deleting, and marking tasks as completed, showing the date and time in real-time.',
+      'Menu': 'In my beginnings with HTML and CSS, I created a landing page for a restaurant menu. The page displays all products and their descriptions, which helped me learn to design information attractively.',
+      'CineCampus': 'This project, developed with Node.js, is a cinema application that includes APIs and front-end. It allows users to view movies, read descriptions, and check seat availability, which gave me great experience in full-stack development.',
+      'Space X': 'In this project, we used JavaScript to consume the SpaceX API, putting our creativity into practice and exploring space data and effectively integrating APIs.',
+      'Comunicación Efectiva': 'Effective Communication',
+      'Trabajo en Equipo': 'Teamwork',
+      'Resolución de Problemas': 'Problem Solving',
+      'Liderazgo': 'Leadership',
+      'Adaptabilidad': 'Adaptability',
+      'Creatividad': 'Creativity',
+      'Gestión del Tiempo': 'Time Management',
+      'Empatía': 'Empathy',
+      'Habilidad para expresar ideas de manera clara y persuasiva.': 'Ability to express ideas clearly and persuasively.',
+      'Capacidad para colaborar y contribuir en grupos diversos.': 'Ability to collaborate and contribute in diverse groups.',
+      'Enfoque analítico para abordar desafíos complejos.': 'Analytical approach to address complex challenges.',
+      'Habilidad para inspirar y guiar a otros hacia objetivos comunes.': 'Ability to inspire and guide others towards common goals.',
+      'Flexibilidad para ajustarse a nuevas situaciones y tecnologías.': 'Flexibility to adjust to new situations and technologies.',
+      'Capacidad para generar ideas innovadoras y soluciones originales.': 'Ability to generate innovative ideas and original solutions.',
+      'Habilidad para priorizar tareas y cumplir plazos eficientemente.': 'Ability to prioritize tasks and meet deadlines efficiently.',
+      'Capacidad para entender y considerar las perspectivas de otros.': 'Ability to understand and consider others\' perspectives.',
+      'Introduccion a Git': 'Introduction to Git',
+      'Edicion de codigo mediante creacion de ramas y combinacion en Git': 'Code editing through branch creation and merging in Git',
+      'Procedimientos para crear y modificar un proyecto de Git': 'Procedures for creating and modifying a Git project',
+      'Colaboracion con Git': 'Collaboration with Git',
+      'Certificado EF': 'EF Certificate',
     }
   };
-  return (key) => translations[currentLanguage.value][key];
+  return (key) => translations[currentLanguage.value][key] || key;
 });
 
 const navItems = ['inicio', 'proyectos', 'habilidades', 'contacto'];
 
 const projects = ref([
-  { id: 1, title: 'Eccomerce-Campus', description: 'Este proyecto permite visualizar productos, buscar por categorías, ver descripciones y elegir tallas. Además, gestiona un carrito de compras que calcula el total y facilita el checkout.', image: EccomerceImage, link: 'https://github.com/valentina-26/ecommerCampusM1' },
-  { id: 2, title: 'ToDoList', description: 'Este proyecto de to-do list permite agregar, eliminar y marcar tareas como completadas, mostrando la fecha y hora en tiempo real.', image: ToDoListImage, link: 'https://github.com/valentina-26/Todo-List' },
-  { id: 3, title: 'Menu', description: 'En mis inicios con HTML y CSS, creé una landing page para un menú de restaurante. La página muestra todos los productos y sus descripciones, lo que me ayudó a aprender a diseñar información de manera atractiva.', image: MenuImage, link: 'https://github.com/valentina-26/proyectoWeb.' },
-  { id: 4, title: 'CineCampus', description: 'Este proyecto, desarrollado con Node.js, es una aplicación de cine que incluye APIs y front-end. Permite a los usuarios ver películas, leer descripciones y consultar la disponibilidad de asientos, lo que me dio una gran experiencia en desarrollo full-stack.', image: Cine, link: 'https://github.com/valentina-26/cineCampus' },
-  { id: 5, title: 'Space X', description: 'En este proyecto, utilizamos JavaScript para consumir la API de SpaceX, poniendo en práctica nuestra creatividad y  explorar datos espaciales e integrar APIs de manera efectiva.', image: SpaceXImage, link: 'https://github.com/valentina-26/SpaceX' },
+  { id: 1, title: 'Eccomerce-Campus', description: 'Eccomerce-Campus', image: EccomerceImage, link: 'https://github.com/valentina-26/ecommerCampusM1' },
+  { id: 2, title: 'ToDoList', description: 'ToDoList', image: ToDoListImage, link: 'https://github.com/valentina-26/Todo-List' },
+  { id: 3, title: 'Menu', description: 'Menu', image: MenuImage, link: 'https://github.com/valentina-26/proyectoWeb.' },
+  { id: 4, title: 'CineCampus', description: 'CineCampus', image: Cine, link: 'https://github.com/valentina-26/cineCampus' },
+  { id: 5, title: 'Space X', description: 'Space X', image: SpaceXImage, link: 'https://github.com/valentina-26/SpaceX' },
 ]);
 
 const currentIndex = ref(0);
@@ -559,7 +651,7 @@ const updateCursor = (e) => {
 };
 
 // Terminal 
-const terminalLines = ref(['Bienvenido a mi terminal interactiva. Escribe "help" para ver los comandos que te permitiran contactarme']);
+const terminalLines = ref(['Welcome to my interactive terminal. Type "help" to see the commands that will allow you to contact me']);
 const terminalInput = ref('');
 
 const executeCommand = () => {
@@ -568,29 +660,29 @@ const executeCommand = () => {
 
   switch (command) {
     case 'help':
-      terminalLines.value.push('Comandos disponibles:');
-      terminalLines.value.push('- cv: Mi hoja de vida');
+      terminalLines.value.push('Available commands:');
+      terminalLines.value.push('- cv: My resume');
       terminalLines.value.push('- email: email');
       terminalLines.value.push('- linkedin: Linkedin');
-      terminalLines.value.push('- clear: Limpiar la terminal');
+      terminalLines.value.push('- clear: Clear the terminal');
       break;
 
     case 'cv':
-      terminalLines.value.push('Mostrando link de mi hoja de vida...');
+            terminalLines.value.push('Showing link to my resume...');
       setTimeout(() => {
-        terminalLines.value.push('<a href="https://www.canva.com/design/DAGBrY_47fM/5dhdsxs_siGcFZxXrJLlBg/edit?utm_content=DAGBrY_47fM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" class="text-blue-500 hover:underline">Ver mi hoja de vida</a>');
+        terminalLines.value.push('<a href="https://www.canva.com/design/DAGBrY_47fM/5dhdsxs_siGcFZxXrJLlBg/edit?utm_content=DAGBrY_47fM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" class="text-blue-500 hover:underline font-extrabold">View my resume</a>');
       }, 1000);
       break;
 
     case 'email':
       window.open('mailto:acastrosandova3@gmail.com', '_blank');
-      terminalLines.value.push('Abriendo su cliente de correo electrónico...');
+      terminalLines.value.push('Opening your email client...');
       break;
 
     case 'linkedin':
-    terminalLines.value.push('Mostrando link de mi Linkedin...');
+      terminalLines.value.push('Showing link to my Linkedin...');
       setTimeout(() => {
-        terminalLines.value.push('<a href="https://www.linkedin.com/in/valentina-castro-b0630b319/" target="_blank" class="text-blue-500 hover:underline">Ver mi linkedin</a>');
+        terminalLines.value.push('<a href="https://www.linkedin.com/in/valentina-castro-b0630b319/" target="_blank" class="text-blue-500 hover:underline font-extrabold">View my linkedin</a>');
       }, 1000);
       break;
 
@@ -599,7 +691,7 @@ const executeCommand = () => {
       break;
 
     default:
-      terminalLines.value.push(`Comando no reconocido: ${command}. Escribe 'help' para ver los comandos disponibles.`);
+      terminalLines.value.push(`Command not recognized: ${command}. Type 'help' to see available commands.`);
   }
 
   terminalInput.value = '';
@@ -669,6 +761,7 @@ body {
   font-family: 'Arial', sans-serif;
   background-color: black;
   color: white;
+  font-weight: 800; /* Equivalent to font-extrabold in CSS puro */
 }
 
 .custom-cursor {
@@ -691,7 +784,7 @@ body {
   position: fixed;
   pointer-events: none;
   z-index: 10000;
-  transition: all 0.25s cubic-bezier(0.60, -0.60, 0.270, 1.55);
+  transition: all 0.05s cubic-bezier(0.60, -0.60, 0.270, 1.55);
   transform: translate(-50%, -50%);
 }
 
