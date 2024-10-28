@@ -709,7 +709,6 @@ const acknowledgments = [
   { name: 'Edicion de codigo mediante creacion de ramas y combinacion en Git', imagen: edicion },
   { name: 'Procedimientos para crear y modificar un proyecto de Git', imagen: Procedimientos },
   { name: 'Colaboracion con Git', imagen: colaboración },
-  { name: 'Certificado EF', imagen: java },
 ];
 
 const currentAcknowledgment = ref(0);

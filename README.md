@@ -1,7 +1,26 @@
-# Vue 3 + Vite
+# Portafolio de Web
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+¡Bienvenido a mi portafolio! 🎉
 
-## Recommended IDE Setup
+Este es un proyecto diseñado para mostrar mis habilidades y trabajos en desarrollo web. Aquí puedes encontrar información sobre mí, mis proyectos y mucho más.
 
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar) and disable Vetur
+## Características
+
+- **Diseño moderno y atractivo**
+- **Responsive**: se adapta a diferentes tamaños de pantalla
+- **Tecnologías utilizadas**: Vue.js, Tailwind CSS, y más
+
+## Requisitos
+
+Antes de ejecutar el proyecto, asegúrate de tener instalado [Node.js](https://nodejs.org/) en tu máquina.
+
+## Instalación y Ejecución
+
+Para correr este proyecto en tu máquina local, sigue estos pasos:
+
+1. npm i (instala dependecias)
+2. npm run dev (corre el servidor)
+
+asi podras accder a el link que te permitira ver mi portafolio web
+
+Espero que te guste mi portafolio y que encuentres lo que estás buscando. ¡Gracias por visitar! 🚀
